@@ -1,0 +1,19 @@
+# created by virtualenv automatically
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# PyCharm
+.idea/
+
+# Environment variables
+.env
+
+# docx files
+*.docx
+
+# images folder
+images/
