@@ -1,14 +1,16 @@
 import cv2
+import mediapipe as mp
 
 webcam = cv2.VideoCapture(0)
 
-stop = False
-while stop == False:
+
+while True:
     ret, frame = webcam.read()
     if ret:
         cv2.imshow("1st Frame", frame)
 
         key = cv2.waitKey(1)
         if key == ord('q'):
-            stop = True
+            break
 
+cv2.destroyAllWindows()
