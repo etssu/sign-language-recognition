@@ -60,6 +60,9 @@ while True:
             for x, y in points:
                 cv2.circle(frame,(x, y),5,(0, 0, 255),-1)
 
+            for i, landmark in enumerate(hand_landmarks):
+                print(i, landmark.x, landmark.y, landmark.z)
+
 
 
     cv2.imshow("Hand Detection", frame)
