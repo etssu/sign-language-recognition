@@ -25,7 +25,6 @@ X = df.drop(columns=excluded_columns)
 y = df["gesture"]
 
 
-
 # 3. Train / test split
 X_train, X_test, y_train, y_test = train_test_split(
     X,
@@ -39,17 +38,19 @@ print("\nTraining samples:", len(X_train))
 print("Testing samples:", len(X_test))
 
 
-
 # 4. Create KNN model
-knn = KNeighborsClassifier(n_neighbors=5)
+knn = KNeighborsClassifier(n_neighbors=7)
 
 knn.fit(X_train, y_train)
 
+# calculate & print train accuracy
+y_train_pred = knn.predict(X_train)
+train_accuracy = accuracy_score(y_train, y_train_pred)
 
+print(f"Train accuracy: {train_accuracy:.4f}")
 
 # 5. Prediction
 y_pred = knn.predict(X_test)
-
 
 
 # 6. Evaluation
