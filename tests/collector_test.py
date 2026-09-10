@@ -21,7 +21,7 @@ HAND_CONNECTIONS = [
 SAMPLES_PER_GESTURE = 50
 SAMPLE_INTERVAL = 0.15
 
-DATA_DIR = "data"
+DATA_DIR = "../data"
 DATA_FILE = os.path.join(DATA_DIR, "landmarks.csv")
 
 os.makedirs(DATA_DIR, exist_ok=True)
@@ -36,7 +36,7 @@ session_id = time.strftime("%Y%m%d_%H%M%S")
 
 
 # MediaPipe
-base_options = python.BaseOptions(model_asset_path="models/hand_landmarker.task")
+base_options = python.BaseOptions(model_asset_path="../models/hand_landmarker.task")
 
 options = vision.HandLandmarkerOptions(
     base_options=base_options,

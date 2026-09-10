@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 
 
 # 1. Load dataset
-DATA_FILE = "data/landmarks.csv"
+DATA_FILE = "../data/landmarks.csv"
 
 df = pd.read_csv(DATA_FILE)
 

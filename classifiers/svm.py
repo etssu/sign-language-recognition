@@ -1,8 +1,5 @@
 import pandas as pd
 
-import numpy as np
-import matplotlib.pyplot as plt
-
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
@@ -11,7 +8,7 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 
 
 # 1. Load dataset
-DATA_FILE = "data/landmarks.csv"
+DATA_FILE = "../data/landmarks.csv"
 
 df = pd.read_csv(DATA_FILE)
 
@@ -31,7 +28,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 print("\nTraining samples:", len(X_train))
 print("Testing samples:", len(X_test))
 
-# Scale the features
+# 4. Scale the features
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
