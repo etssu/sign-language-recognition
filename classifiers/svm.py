@@ -5,22 +5,12 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
-
+from preprocessing import load_static_data
 
 # 1. Load dataset
 DATA_FILE = "../data/landmarks.csv"
 
-df = pd.read_csv(DATA_FILE)
-
-print("Dataset shape:", df.shape)
-print("\nClasses:")
-print(df["gesture"].value_counts())
-
-# 2. Prepare data
-excluded_columns = ["person_id", "session_id", "gesture"]
-
-X = df.drop(columns=excluded_columns)
-y = df["gesture"]
+X, y = load_static_data(DATA_FILE)
 
 # 3. Train \ test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
