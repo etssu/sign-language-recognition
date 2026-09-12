@@ -26,7 +26,7 @@ SAMPLE_INTERVAL = 0.15
 RECORDING_DURATION = 1.5   # seconds per repetition
 REPETITIONS = 15           # number of repetitions to record
 
-DATA_DIR = "../data"
+DATA_DIR = "data"
 DATA_FILE = os.path.join(DATA_DIR, "landmarks.csv")
 
 os.makedirs(DATA_DIR, exist_ok=True)
@@ -43,7 +43,7 @@ while gesture_type not in ("static", "dynamic"):
 
 
 # MediaPipe
-base_options = python.BaseOptions(model_asset_path="../models/hand_landmarker.task")
+base_options = python.BaseOptions(model_asset_path="models/hand_landmarker.task")
 
 options = vision.HandLandmarkerOptions(
     base_options=base_options,
