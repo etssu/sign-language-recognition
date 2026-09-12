@@ -4,28 +4,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
-
+from preprocessing import load_static_data
 
 # 1. Load dataset
 DATA_FILE = "../data/landmarks.csv"
 
-df = pd.read_csv(DATA_FILE)
+X, y = load_static_data(DATA_FILE)
 
-print("Dataset shape:", df.shape)
-print("\nClasses:")
-print(df["gesture"].value_counts())
-
-
-# 2. Prepare data
-
-# These columns are not features
-excluded_columns = ["person_id", "session_id", "gesture"]
-
-X = df.drop(columns=excluded_columns)
-y = df["gesture"]
-
-
-# 3. Train / test split
+# 2. Train / test split
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
@@ -38,7 +24,7 @@ print("\nTraining samples:", len(X_train))
 print("Testing samples:", len(X_test))
 
 
-# 4. Create KNN model
+# 3. Create KNN model
 knn = KNeighborsClassifier(n_neighbors=7)
 
 knn.fit(X_train, y_train)
@@ -49,11 +35,11 @@ train_accuracy = accuracy_score(y_train, y_train_pred)
 
 print(f"Train accuracy: {train_accuracy:.4f}")
 
-# 5. Prediction
+# 4. Prediction
 y_pred = knn.predict(X_test)
 
 
-# 6. Evaluation
+# 5. Evaluation
 accuracy = accuracy_score(y_test, y_pred)
 
 print("\n=========================")
