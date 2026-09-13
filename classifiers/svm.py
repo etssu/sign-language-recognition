@@ -12,7 +12,7 @@ DATA_FILE = "../data/landmarks.csv"
 
 X, y = load_static_data(DATA_FILE)
 
-# 3. Train \ test split
+# 2. Train \ test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
 print("\nTraining samples:", len(X_train))
@@ -24,7 +24,7 @@ X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 # 5. Train the classifier
-svm_classifier = SVC(kernel='rbf', C=0.1, random_state=42)
+svm_classifier = SVC(kernel='linear', C=0.1, random_state=42)
 svm_classifier.fit(X_train_scaled, y_train)
 
 # calculate & print train accuracy
