@@ -1,5 +1,9 @@
+from msilib import sequence
+
 import pandas as pd
 import numpy as np
+
+from data_collector import person_id
 
 # TODO - create a dynamic load
 LANDMARK_COLUMNS = []
@@ -38,3 +42,41 @@ def load_static_data(file_path):
     y = df["gesture"].values
 
     return X, y
+
+def load_dynamic_data(file_path, max_seq_len=None):
+    df = pd.read_csv(file_path)
+    df = df[df["gesture_type"] == "dynamic"].copy()
+
+    sequences = []
+    labels = []
+    person_ids = []
+
+    # group by person + session = one gesture record
+    grouped = df.groupby(["person_id", "session_id"])
+
+    for (person_id, session_id), group in grouped:
+        group = group.sort_values("frame_number")
+
+        # normalize every frame separately
+        frames = np.array([normalize_row(row) for _, row in group.iterrows()])
+
+        sequences.append(frames)
+        labels.append(group["gesture"].iloc[0])
+        person_ids.append(person_id)
+
+        if max_seq_len is None:
+            max_seq_len = max(len(seq) for seq in sequences)
+
+        n_features = sequences[0].shape[1]
+        X = np.zeros((len(sequences), max_seq_len, n_features), dtype=np.float32)
+        seq_lengths = np.zeros(len(sequences), dtype=np.int32)
+
+        for i, seq in enumerate(sequences):
+            length = min(len(seq), max_seq_len)
+            X[i, :length] = seq[:length]
+            seq_lengths[i] = length
+
+        y = np.array(labels)
+        person_ids = np.array(person_ids)
+
+        return X, y, person_ids, seq_lengths
