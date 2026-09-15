@@ -38,8 +38,8 @@ gesture = input("Enter gesture: ")
 
 gesture_type = input("Gesture type (static/dynamic): ").strip().lower()
 
-while gesture_type not in ("static", "dynamic"):
-    gesture_type = input("Please type 'static' or 'dynamic': ").strip().lower()
+while gesture_type not in ("s", "d"):
+    gesture_type = input("Please type 's' or 'd': ").strip().lower()
 
 
 # MediaPipe
@@ -158,7 +158,6 @@ def cleanup_and_exit():
     exit()
 
 
-
 # Static gesture collection
 
 def collect_static_gesture():
@@ -191,7 +190,6 @@ def collect_static_gesture():
             current_time = time.time()
 
             if current_time - last_sample_time >= SAMPLE_INTERVAL:
-
                 row = [
                     person_id,
                     session_id,
