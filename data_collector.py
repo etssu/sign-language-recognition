@@ -38,8 +38,8 @@ gesture = input("Enter gesture: ")
 
 gesture_type = input("Gesture type (static/dynamic): ").strip().lower()
 
-while gesture_type not in ("s", "d"):
-    gesture_type = input("Please type 's' or 'd': ").strip().lower()
+while gesture_type not in ("static", "dynamic"):
+    gesture_type = input("Please type 'static' or 'dynamic': ").strip().lower()
 
 
 # MediaPipe

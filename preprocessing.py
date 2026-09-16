@@ -1,11 +1,6 @@
-from msilib import sequence
-
 import pandas as pd
 import numpy as np
 
-from data_collector import person_id
-
-# TODO - create a dynamic load
 LANDMARK_COLUMNS = []
 
 for i in range(21):
@@ -16,7 +11,7 @@ for i in range(21):
     ])
 
 
-def normalize_row(row, num_points=21):
+def normalize_row(row, num_points=21, mirror=False):
     # Normalizes a single frame. Returns None if the frame is invalid (scale ~ 0)
     wrist_x, wrist_y = row["x0"], row["y0"] # wrist
     mid_x, mid_y = row["x9"], row["y9"] # middle finger
@@ -27,7 +22,12 @@ def normalize_row(row, num_points=21):
 
     values = []
     for i in range(num_points):
-        values.append((row[f"x{i}"] - wrist_x) / scale)
+        x = (row[f"x{i}"] - wrist_x) / scale
+
+        if mirror:
+            x = -x
+        
+        values.append(x)
         values.append((row[f"y{i}"] - wrist_y) / scale)
         values.append(row[f"z{i}"] / scale)
 
