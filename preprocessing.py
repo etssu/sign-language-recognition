@@ -64,19 +64,27 @@ def load_dynamic_data(file_path, max_seq_len=None):
         labels.append(group["gesture"].iloc[0])
         person_ids.append(person_id)
 
-        if max_seq_len is None:
-            max_seq_len = max(len(seq) for seq in sequences)
+    # statistics about sequence lengths
+    lengths = [len(seq) for seq in sequences]
 
-        n_features = sequences[0].shape[1]
-        X = np.zeros((len(sequences), max_seq_len, n_features), dtype=np.float32)
-        seq_lengths = np.zeros(len(sequences), dtype=np.int32)
+    print("Number of sequences:", len(sequences))
+    print("Min sequence length:", min(lengths))
+    print("Max sequence length:", max(lengths))
+    print("Average sequence length:", sum(lengths) / len(lengths))
 
-        for i, seq in enumerate(sequences):
-            length = min(len(seq), max_seq_len)
-            X[i, :length] = seq[:length]
-            seq_lengths[i] = length
+    if max_seq_len is None:
+        max_seq_len = max(len(seq) for seq in sequences)
 
-        y = np.array(labels)
-        person_ids = np.array(person_ids)
+    n_features = sequences[0].shape[1]
+    X = np.zeros((len(sequences), max_seq_len, n_features), dtype=np.float32)
+    seq_lengths = np.zeros(len(sequences), dtype=np.int32)
 
-        return X, y, person_ids, seq_lengths
+    for i, seq in enumerate(sequences):
+        length = min(len(seq), max_seq_len)
+        X[i, :length] = seq[:length]
+        seq_lengths[i] = length
+
+    y = np.array(labels)
+    person_ids = np.array(person_ids)
+
+    return X, y, person_ids, seq_lengths

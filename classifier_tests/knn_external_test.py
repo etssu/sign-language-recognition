@@ -5,7 +5,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 
-DATA_FILE = "data/landmarks.csv"
+DATA_FILE = "../data/landmarks.csv"
 
 
 # 1. Load data
@@ -16,8 +16,8 @@ df = df[df["gesture_type"] == "static"]
 
 
 # 2. Split by person
-train_df = df[df["person_id"] == 1]
-test_df = df[df["person_id"] == 2]
+train_df = df[df["person_id"].isin([2,3])]
+test_df = df[df["person_id"] == 1]
 
 print("\nTraining samples:", len(train_df))
 print("External test samples:", len(test_df))

@@ -57,7 +57,7 @@ hand_landmarker = vision.HandLandmarker.create_from_options(options)
 # CSV
 file_exists = os.path.exists(DATA_FILE)
 
-file = open(DATA_FILE, "a", newline="")
+file = open(DATA_FILE, "a", newline="", encoding="utf-8")
 writer = csv.writer(file)
 
 if not file_exists:
