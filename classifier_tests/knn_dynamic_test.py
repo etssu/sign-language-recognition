@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 
 from sklearn.model_selection import train_test_split
@@ -45,6 +44,20 @@ X_test = X[test_idx]
 y_train = y[train_idx]
 y_test = y[test_idx]
 
+def train_and_evaluate_knn(X_train, X_test, y_train, y_test, n_neighbors=3):
+    X_train = X_train.reshape(X_train.shape[0], -1)
+    X_test = X_test.reshape(X_test.shape[0], -1)
+
+    model = KNeighborsClassifier(n_neighbors=n_neighbors)
+
+    model.fit(X_train, y_train)
+
+    y_pred = model.predict(X_test)
+
+    train_accuracy = model.score(X_train, y_train)
+    test_accuracy = accuracy_score(y_test, y_pred)
+
+    return train_accuracy, test_accuracy, y_pred
 
 print("\n=========================")
 print("TRAIN / TEST SPLIT")
@@ -54,26 +67,13 @@ print("Training sequences:", len(X_train))
 print("Testing sequences:", len(X_test))
 
 
-
-# FLATTEN SEQUENCES
-X_train = X_train.reshape(X_train.shape[0], -1)
-X_test = X_test.reshape(X_test.shape[0], -1)
-
-print("\nFlattened X_train shape:", X_train.shape)
-print("Flattened X_test shape:", X_test.shape)
-
-
-# KNN
-model = KNeighborsClassifier(n_neighbors=3)
-
-model.fit(X_train, y_train)
-
-y_pred = model.predict(X_test)
-
-
-# RESULTS
-train_accuracy = model.score(X_train, y_train)
-test_accuracy = accuracy_score(y_test, y_pred)
+train_accuracy, test_accuracy, y_pred = train_and_evaluate_knn(
+    X_train,
+    X_test,
+    y_train,
+    y_test,
+    n_neighbors=3
+)
 
 print("\n=========================")
 print("KNN RESULTS")
