@@ -2,33 +2,35 @@ import numpy as np
 
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-from preprocessing import load_dynamic_data
+from sklearn.metrics import accuracy_score
+
+from experiment_utils import print_dataset_info, print_model_results, print_test_train_split
+from preprocessing import load_dynamic_data, flatten_sequences
 
 
 DATA_FILE = "../data/landmarks.csv"
+
+def train_and_evaluate_knn(train_x,test_x,train_y,test_y,n_neighbors=3):
+    train_x = flatten_sequences(train_x)
+    test_x = flatten_sequences(test_x)
+
+    model = KNeighborsClassifier(n_neighbors=n_neighbors)
+
+    model.fit(train_x, train_y)
+
+    y_pred = model.predict(test_x)
+
+    train_accuracy = model.score(train_x, train_y)
+    test_accuracy = accuracy_score(test_y, y_pred)
+
+    return train_accuracy, test_accuracy, y_pred
+
+# Load data
 X, y, person_ids, seq_lengths = load_dynamic_data(DATA_FILE)
 
-print("\n=========================")
-print("DYNAMIC DATA")
-print("=========================")
+print_dataset_info(X, y, seq_lengths)
 
-print("Number of sequences:", len(X))
-print("X shape:", X.shape)
-print("Classes:", np.unique(y))
-print("Number of classes:", len(np.unique(y)))
-
-print("\nSequence lengths:")
-print("Min:", seq_lengths.min())
-print("Max:", seq_lengths.max())
-print("Average:", seq_lengths.mean())
-
-print("\nSamples per gesture:")
-for gesture in np.unique(y):
-    print(gesture, ":", np.sum(y == gesture))
-
-
-# TRAIN / TEST SPLIT
+# Train / Test split
 indices = np.arange(len(X))
 
 train_idx, test_idx = train_test_split(
@@ -44,29 +46,10 @@ X_test = X[test_idx]
 y_train = y[train_idx]
 y_test = y[test_idx]
 
-def train_and_evaluate_knn(X_train, X_test, y_train, y_test, n_neighbors=3):
-    X_train = X_train.reshape(X_train.shape[0], -1)
-    X_test = X_test.reshape(X_test.shape[0], -1)
-
-    model = KNeighborsClassifier(n_neighbors=n_neighbors)
-
-    model.fit(X_train, y_train)
-
-    y_pred = model.predict(X_test)
-
-    train_accuracy = model.score(X_train, y_train)
-    test_accuracy = accuracy_score(y_test, y_pred)
-
-    return train_accuracy, test_accuracy, y_pred
-
-print("\n=========================")
-print("TRAIN / TEST SPLIT")
-print("=========================")
-
-print("Training sequences:", len(X_train))
-print("Testing sequences:", len(X_test))
+print_test_train_split(X_train, X_test)
 
 
+# KNN
 train_accuracy, test_accuracy, y_pred = train_and_evaluate_knn(
     X_train,
     X_test,
@@ -75,15 +58,4 @@ train_accuracy, test_accuracy, y_pred = train_and_evaluate_knn(
     n_neighbors=3
 )
 
-print("\n=========================")
-print("KNN RESULTS")
-print("=========================")
-
-print("Train accuracy:", train_accuracy)
-print("Test accuracy:", test_accuracy)
-
-print("\nClassification report:")
-print(classification_report(y_test, y_pred))
-
-print("\nConfusion matrix:")
-print(confusion_matrix(y_test, y_pred))
+print_model_results("KNN", train_accuracy, test_accuracy, y_test, y_pred)

@@ -88,3 +88,6 @@ def load_dynamic_data(file_path, max_seq_len=None):
     person_ids = np.array(person_ids)
 
     return X, y, person_ids, seq_lengths
+
+def flatten_sequences(X):
+    return X.reshape(X.shape[0], -1)
