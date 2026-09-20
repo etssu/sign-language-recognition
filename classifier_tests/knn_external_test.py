@@ -1,7 +1,7 @@
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
-from experiment_utils import print_model_results
+from experiment_utils import print_model_results, print_test_train_split
 from preprocessing import load_static_data_by_person
 
 DATA_FILE = "../data/landmarks.csv"
@@ -35,8 +35,7 @@ X_train, X_test, y_train, y_test = load_static_data_by_person(
     test_person_ids=[1]
 )
 
-print("\nTraining samples:", len(X_train))
-print("External test samples:", len(X_test))
+print_test_train_split(X_train, X_test)
 
 
 # KNN
@@ -52,6 +51,6 @@ print_model_results(
     "KNN",
     train_accuracy,
     test_accuracy,
-    y_test,
-    y_pred
+    y_pred,
+    y_test
 )

@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
-from experiment_utils import print_dataset_info, print_model_results, print_test_train_split
+from experiment_utils import print_dynamic_dataset_info, print_model_results, print_test_train_split
 from preprocessing import load_dynamic_data, flatten_sequences
 
 
@@ -28,7 +28,7 @@ def train_and_evaluate_knn(train_x,test_x,train_y,test_y,n_neighbors=3):
 # Load data
 X, y, person_ids, seq_lengths = load_dynamic_data(DATA_FILE)
 
-print_dataset_info(X, y, seq_lengths)
+print_dynamic_dataset_info(X, y, seq_lengths)
 
 # Train / Test split
 indices = np.arange(len(X))
@@ -55,7 +55,7 @@ train_accuracy, test_accuracy, y_pred = train_and_evaluate_knn(
     X_test,
     y_train,
     y_test,
-    n_neighbors=3
+    n_neighbors=7
 )
 
-print_model_results("KNN", train_accuracy, test_accuracy, y_test, y_pred)
+print_model_results("KNN", train_accuracy, test_accuracy,  y_pred, y_test)

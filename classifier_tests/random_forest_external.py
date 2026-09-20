@@ -1,69 +1,58 @@
-import pandas as pd
-
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score
+
+from experiment_utils import print_model_results, print_test_train_split
+from preprocessing import load_static_data_by_person
 
 DATA_FILE = "../data/landmarks.csv"
 
-df = pd.read_csv(DATA_FILE)
-df = df[df["gesture_type"] == "static"]
+def train_and_evaluate_random_forest(train_x,test_x,train_y, test_y,n_estimators=10):
+    model = RandomForestClassifier(
+        n_estimators=n_estimators,
+        random_state=42
+    )
 
-train_df = df[df["person_id"].isin([2,3])]
-test_df = df[df["person_id"] == 1]
+    model.fit(train_x, train_y)
 
-print("\nTraining samples:", len(train_df))
-print("External test samples:", len(test_df))
+    y_train_pred = model.predict(train_x)
+    y_pred = model.predict(test_x)
 
+    train_accuracy = accuracy_score(
+        train_y,
+        y_train_pred
+    )
 
-def get_features(dataframe):
-    features = []
+    test_accuracy = accuracy_score(
+        test_y,
+        y_pred
+    )
 
-    for _, row in dataframe.iterrows():
-        landmarks = []
-
-        for i in range(21):
-            landmarks.extend([
-                row[f"x{i}"],
-                row[f"y{i}"],
-                row[f"z{i}"]
-            ])
-
-        features.append(landmarks)
-
-    return features
+    return train_accuracy, test_accuracy, y_pred
 
 
-X_train = get_features(train_df)
-X_test = get_features(test_df)
-
-y_train = train_df["gesture"].values
-y_test = test_df["gesture"].values
-
-
-rf = RandomForestClassifier(
-    n_estimators=10,
-    random_state=42
+# Load data
+X_train, X_test, y_train, y_test = load_static_data_by_person(
+    DATA_FILE,
+    train_person_ids=[2, 3],
+    test_person_ids=[1]
 )
 
-rf.fit(X_train, y_train)
+print_test_train_split(X_train, X_test)
 
-y_train_pred = rf.predict(X_train)
-train_accuracy = accuracy_score(y_train, y_train_pred)
 
-print(f"Train accuracy: {train_accuracy:.4f}")
+# Random Forest
+train_accuracy, test_accuracy, y_pred = train_and_evaluate_random_forest(
+    X_train,
+    X_test,
+    y_train,
+    y_test,
+    n_estimators=10
+)
 
-y_pred = rf.predict(X_test)
-
-accuracy = accuracy_score(y_test, y_pred)
-
-print("\n=========================")
-print("RANDOM FOREST RESULTS")
-print("=========================")
-
-print(f"External test accuracy: {accuracy:.4f}")
-
-print("\nClassification report:")
-print(classification_report(y_test, y_pred))
-
-print("\nConfusion matrix:")
-print(confusion_matrix(y_test, y_pred))
+print_model_results(
+    "RANDOM FOREST",
+    train_accuracy,
+    test_accuracy,
+    y_pred,
+    y_test
+)
