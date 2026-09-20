@@ -43,6 +43,21 @@ def load_static_data(file_path):
 
     return X, y
 
+def load_static_data_by_person(file_path, train_person_ids, test_person_ids):
+    df = pd.read_csv(file_path)
+    df = df[df["gesture_type"] == "static"].copy()
+
+    train_df = df[df["person_id"].isin(train_person_ids)]
+    test_df = df[df["person_id"].isin(test_person_ids)]
+
+    X_train = np.array([normalize_row(row) for _, row in train_df.iterrows()])
+    X_test = np.array([normalize_row(row) for _, row in test_df.iterrows()])
+
+    y_train = train_df["gesture"].values
+    y_test = test_df["gesture"].values
+
+    return X_train, X_test, y_train, y_test
+
 def load_dynamic_data(file_path, max_seq_len=None):
     df = pd.read_csv(file_path)
     df = df[df["gesture_type"] == "dynamic"].copy()
