@@ -1,101 +1,57 @@
-import pandas as pd
-import numpy as np
-
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
+from experiment_utils import print_model_results
+from preprocessing import load_static_data_by_person
 
 DATA_FILE = "../data/landmarks.csv"
 
 
-# 1. Load data
-df = pd.read_csv(DATA_FILE)
+def train_and_evaluate_knn(train_x,test_x,train_y,test_y,n_neighbors=7):
+    model = KNeighborsClassifier(n_neighbors=n_neighbors)
 
-# Only static gestures
-df = df[df["gesture_type"] == "static"]
+    model.fit(train_x, train_y)
 
+    y_train_pred = model.predict(train_x)
+    y_pred = model.predict(test_x)
 
-# 2. Split by person
-train_df = df[df["person_id"].isin([2,3])]
-test_df = df[df["person_id"] == 1]
+    train_accuracy = accuracy_score(
+        train_y,
+        y_train_pred
+    )
 
-print("\nTraining samples:", len(train_df))
-print("External test samples:", len(test_df))
+    test_accuracy = accuracy_score(
+        test_y,
+        y_pred
+    )
 
-
-# 3. Normalization
-def normalize_landmarks(dataframe):
-
-    normalized_data = []
-
-    for _, row in dataframe.iterrows():
-
-        landmarks = []
-
-        for i in range(21):
-            landmarks.append([
-                row[f"x{i}"],
-                row[f"y{i}"],
-                row[f"z{i}"]
-            ])
-
-        landmarks = np.array(landmarks)
-
-        # Move wrist (landmark 0) to origin
-        landmarks = landmarks - landmarks[0]
-
-        # Scale according to hand size
-        max_distance = np.max(np.linalg.norm(landmarks, axis=1))
-
-        if max_distance != 0:
-            landmarks = landmarks / max_distance
-
-        normalized_data.append(landmarks.flatten())
-
-    return np.array(normalized_data)
+    return train_accuracy, test_accuracy, y_pred
 
 
-X_train = normalize_landmarks(train_df)
-X_test = normalize_landmarks(test_df)
-
-y_train = train_df["gesture"].values
-y_test = test_df["gesture"].values
-
-
-# 4. KNN
-knn = KNeighborsClassifier(n_neighbors=7)
-
-knn.fit(X_train, y_train)
-
-
-# 5. Train accuracy
-y_train_pred = knn.predict(X_train)
-
-train_accuracy = accuracy_score(
-    y_train,
-    y_train_pred
+# Load data
+X_train, X_test, y_train, y_test = load_static_data_by_person(
+    DATA_FILE,
+    train_person_ids=[2, 3],
+    test_person_ids=[1]
 )
 
+print("\nTraining samples:", len(X_train))
+print("External test samples:", len(X_test))
 
-# 6. External test
-y_pred = knn.predict(X_test)
 
-test_accuracy = accuracy_score(
+# KNN
+train_accuracy, test_accuracy, y_pred = train_and_evaluate_knn(
+    X_train,
+    X_test,
+    y_train,
+    y_test,
+    n_neighbors=7
+)
+
+print_model_results(
+    "KNN",
+    train_accuracy,
+    test_accuracy,
     y_test,
     y_pred
 )
-
-
-# 7. Results
-print("\n=========================")
-print("KNN - NORMALIZED EXTERNAL TEST")
-print("=========================")
-
-print(f"Train accuracy: {train_accuracy:.4f}")
-print(f"External test accuracy: {test_accuracy:.4f}")
-
-print("\nClassification report:")
-print(classification_report(y_test, y_pred))
-
-print("\nConfusion matrix:")
-print(confusion_matrix(y_test, y_pred))
