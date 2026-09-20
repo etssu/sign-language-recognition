@@ -1,81 +1,64 @@
-import pandas as pd
-
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score
+
+from experiment_utils import print_model_results
+from preprocessing import load_static_data_by_person
 
 DATA_FILE = "../data/landmarks.csv"
 
-df = pd.read_csv(DATA_FILE)
-df = df[df["gesture_type"] == "static"]
-
-train_df = df[df["person_id"].isin([2,3])]
-test_df = df[df["person_id"] == 1]
-
-print("\nTraining samples:", len(train_df))
-print("External test samples:", len(test_df))
-
-
-def get_features(dataframe):
-    features = []
-
-    for _, row in dataframe.iterrows():
-        landmarks = []
-
-        for i in range(21):
-            landmarks.extend([
-                row[f"x{i}"],
-                row[f"y{i}"],
-                row[f"z{i}"]
-            ])
-
-        features.append(landmarks)
-
-    return features
-
-
-X_train = get_features(train_df)
-X_test = get_features(test_df)
-
-y_train = train_df["gesture"].values
-y_test = test_df["gesture"].values
-
-
-# Scale the features
-scaler = StandardScaler()
-
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
-
-
-# Train SVM
-svm = SVC(
+def train_and_evaluate_svm(
+    train_x,
+    test_x,
+    train_y,
+    test_y,
     kernel="linear",
-    C=0.1,
-    random_state=42
+    c=0.1
+):
+    scaler = StandardScaler()
+
+    train_x_scaled = scaler.fit_transform(train_x)
+    test_x_scaled = scaler.transform(test_x)
+
+    model = SVC(
+        kernel=kernel,
+        C=c,
+        random_state=42
+    )
+
+    model.fit(train_x_scaled, train_y)
+
+    y_train_pred = model.predict(train_x_scaled)
+    y_pred = model.predict(test_x_scaled)
+
+    train_accuracy = accuracy_score(train_y, y_train_pred)
+    test_accuracy = accuracy_score(test_y, y_pred)
+
+    return train_accuracy, test_accuracy, y_pred
+
+
+X_train, X_test, y_train, y_test = load_static_data_by_person(
+    DATA_FILE,
+    train_person_ids=[2, 3],
+    test_person_ids=[1]
 )
 
-svm.fit(X_train_scaled, y_train)
+print("\nTraining samples:", len(X_train))
+print("External test samples:", len(X_test))
 
-# Train accuracy
-y_train_pred = svm.predict(X_train_scaled)
-train_accuracy = accuracy_score(y_train, y_train_pred)
+train_accuracy, test_accuracy, y_pred = train_and_evaluate_svm(
+    X_train,
+    X_test,
+    y_train,
+    y_test,
+    kernel="linear",
+    c=0.1
+)
 
-print(f"Train accuracy: {train_accuracy:.4f}")
-
-# External test prediction
-y_pred = svm.predict(X_test_scaled)
-
-accuracy = accuracy_score(y_test, y_pred)
-
-print("\n=========================")
-print("SVM RESULTS")
-print("=========================")
-
-print(f"External test accuracy: {accuracy:.4f}")
-
-print("\nClassification report:")
-print(classification_report(y_test, y_pred))
-
-print("\nConfusion matrix:")
-print(confusion_matrix(y_test, y_pred))
+print_model_results(
+    "SVM",
+    train_accuracy,
+    test_accuracy,
+    y_pred,
+    y_test
+)

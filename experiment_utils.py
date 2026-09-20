@@ -2,7 +2,7 @@ import numpy as np
 
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
-def print_dataset_info(X, y, seq_lengths):
+def print_dynamic_dataset_info(X, y, seq_lengths):
     print("\n=========================")
     print("DYNAMIC DATA")
     print("=========================")
@@ -22,20 +22,6 @@ def print_dataset_info(X, y, seq_lengths):
         print(gesture, ":", np.sum(y == gesture))
 
 
-def print_model_results(model, train_accuracy, test_accuracy, y_test, y_pred):
-    print("\n=========================")
-    print(f"{model} RESULTS")
-    print("=========================")
-
-    print("Train accuracy:", train_accuracy)
-    print("Test accuracy:", test_accuracy)
-
-    print("\nClassification report:")
-    print(classification_report(y_test, y_pred))
-
-    print("\nConfusion matrix:")
-    print(confusion_matrix(y_test, y_pred))
-
 def print_test_train_split(X_train, X_test):
     print("\n=========================")
     print("TRAIN / TEST SPLIT")
@@ -43,3 +29,17 @@ def print_test_train_split(X_train, X_test):
 
     print("Training sequences:", len(X_train))
     print("Testing sequences:", len(X_test))
+
+def print_model_results(model, train_accuracy, test_accuracy, y_pred, y_test):
+    print("\n=========================")
+    print(f"{model} RESULTS")
+    print("=========================")
+
+    print(f"Train accuracy: {train_accuracy:.4f}")
+    print(f"Test accuracy: {test_accuracy:.4f}")
+
+    print("\nClassification report:")
+    print(classification_report(y_test, y_pred))
+
+    print("\nConfusion matrix:")
+    print(confusion_matrix(y_test, y_pred))
