@@ -43,6 +43,7 @@ def load_static_data(file_path):
 
     return X, y
 
+
 def load_static_data_by_person(file_path, train_person_ids, test_person_ids):
     df = pd.read_csv(file_path)
     df = df[df["gesture_type"] == "static"].copy()
@@ -57,6 +58,7 @@ def load_static_data_by_person(file_path, train_person_ids, test_person_ids):
     y_test = test_df["gesture"].values
 
     return X_train, X_test, y_train, y_test
+
 
 def load_dynamic_data(file_path, max_seq_len=None):
     df = pd.read_csv(file_path)
@@ -103,6 +105,104 @@ def load_dynamic_data(file_path, max_seq_len=None):
     person_ids = np.array(person_ids)
 
     return X, y, person_ids, seq_lengths
+
+
+def load_dynamic_data_by_person(file_path, train_person_ids, test_person_ids, max_seq_len=None):
+    df = pd.read_csv(file_path)
+    df = df[df["gesture_type"] == "dynamic"].copy()
+
+    train_df = df[df["person_id"].isin(train_person_ids)]
+    test_df = df[df["person_id"].isin(test_person_ids)]
+
+    # TRAIN
+    train_sequences = []
+    train_labels = []
+    train_person_ids_result = []
+
+    grouped = train_df.groupby(["person_id", "session_id"])
+
+    for (person_id, session_id), group in grouped:
+        group = group.sort_values("frame_number")
+
+        frames = np.array([
+            normalize_row(row)
+            for _, row in group.iterrows()
+        ])
+
+        train_sequences.append(frames)
+        train_labels.append(group["gesture"].iloc[0])
+        train_person_ids_result.append(person_id)
+
+    # TEST
+    test_sequences = []
+    test_labels = []
+    test_person_ids_result = []
+
+    grouped = test_df.groupby(["person_id", "session_id"])
+
+    for (person_id, session_id), group in grouped:
+        group = group.sort_values("frame_number")
+
+        frames = np.array([
+            normalize_row(row)
+            for _, row in group.iterrows()
+        ])
+
+        test_sequences.append(frames)
+        test_labels.append(group["gesture"].iloc[0])
+        test_person_ids_result.append(person_id)
+
+    if max_seq_len is None:
+        max_seq_len = max(len(seq) for seq in train_sequences)
+
+    X_train, train_seq_lengths = pad_sequences(
+        train_sequences,
+        max_seq_len
+    )
+
+    X_test, test_seq_lengths = pad_sequences(
+        test_sequences,
+        max_seq_len
+    )
+
+    y_train = np.array(train_labels)
+    y_test = np.array(test_labels)
+
+    train_person_ids = np.array(train_person_ids_result)
+    test_person_ids = np.array(test_person_ids_result)
+
+    return (
+        X_train,
+        X_test,
+        y_train,
+        y_test,
+        train_person_ids,
+        test_person_ids,
+        train_seq_lengths,
+        test_seq_lengths
+    )
+
+
+def pad_sequences(sequences, max_seq_len):
+    n_features = sequences[0].shape[1]
+
+    X = np.zeros(
+        (len(sequences), max_seq_len, n_features),
+        dtype=np.float32
+    )
+
+    seq_lengths = np.zeros(
+        len(sequences),
+        dtype=np.int32
+    )
+
+    for i, seq in enumerate(sequences):
+        length = min(len(seq), max_seq_len)
+        X[i, :length] = seq[:length]
+        seq_lengths[i] = length
+
+    return X, seq_lengths
+
 
 def flatten_sequences(X):
     return X.reshape(X.shape[0], -1)
