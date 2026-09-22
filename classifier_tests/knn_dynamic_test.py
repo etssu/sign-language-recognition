@@ -1,12 +1,10 @@
 import numpy as np
 
-from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 
 from experiment_utils import print_dynamic_dataset_info, print_model_results, print_test_train_split
-from preprocessing import load_dynamic_data, flatten_sequences
-
+from preprocessing import load_dynamic_data, flatten_sequences, load_dynamic_data_by_person
 
 DATA_FILE = "../data/landmarks.csv"
 
@@ -33,18 +31,7 @@ print_dynamic_dataset_info(X, y, seq_lengths)
 # Train / Test split
 indices = np.arange(len(X))
 
-train_idx, test_idx = train_test_split(
-    indices,
-    test_size=0.2,
-    random_state=42,
-    stratify=y
-)
-
-X_train = X[train_idx]
-X_test = X[test_idx]
-
-y_train = y[train_idx]
-y_test = y[test_idx]
+X_train, X_test, y_train, y_test, train_seq_len, test_seq_len = load_dynamic_data_by_person(DATA_FILE, [3,4], [2])
 
 print_test_train_split(X_train, X_test)
 
@@ -55,7 +42,7 @@ train_accuracy, test_accuracy, y_pred = train_and_evaluate_knn(
     X_test,
     y_train,
     y_test,
-    n_neighbors=7
+    n_neighbors=10
 )
 
 print_model_results("KNN", train_accuracy, test_accuracy,  y_pred, y_test)

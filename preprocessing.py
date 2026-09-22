@@ -117,7 +117,6 @@ def load_dynamic_data_by_person(file_path, train_person_ids, test_person_ids, ma
     # TRAIN
     train_sequences = []
     train_labels = []
-    train_person_ids_result = []
 
     grouped = train_df.groupby(["person_id", "session_id"])
 
@@ -131,12 +130,10 @@ def load_dynamic_data_by_person(file_path, train_person_ids, test_person_ids, ma
 
         train_sequences.append(frames)
         train_labels.append(group["gesture"].iloc[0])
-        train_person_ids_result.append(person_id)
 
     # TEST
     test_sequences = []
     test_labels = []
-    test_person_ids_result = []
 
     grouped = test_df.groupby(["person_id", "session_id"])
 
@@ -150,7 +147,6 @@ def load_dynamic_data_by_person(file_path, train_person_ids, test_person_ids, ma
 
         test_sequences.append(frames)
         test_labels.append(group["gesture"].iloc[0])
-        test_person_ids_result.append(person_id)
 
     if max_seq_len is None:
         max_seq_len = max(len(seq) for seq in train_sequences)
@@ -168,16 +164,12 @@ def load_dynamic_data_by_person(file_path, train_person_ids, test_person_ids, ma
     y_train = np.array(train_labels)
     y_test = np.array(test_labels)
 
-    train_person_ids = np.array(train_person_ids_result)
-    test_person_ids = np.array(test_person_ids_result)
 
     return (
         X_train,
         X_test,
         y_train,
         y_test,
-        train_person_ids,
-        test_person_ids,
         train_seq_lengths,
         test_seq_lengths
     )
