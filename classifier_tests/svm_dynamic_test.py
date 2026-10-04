@@ -20,7 +20,8 @@ train_accuracy, test_accuracy, y_pred = train_and_evaluate_svm(
     y_train,
     y_test,
     kernel="linear",
-    c=0.1
+    c=0.1,
+    data_type="dynamic"
 )
 
 print_model_results(
