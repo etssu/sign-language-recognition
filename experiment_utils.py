@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
@@ -41,5 +42,16 @@ def print_model_results(model, train_accuracy, test_accuracy, y_pred, y_test):
     print("\nClassification report:")
     print(classification_report(y_test, y_pred))
 
-    print("\nConfusion matrix:")
-    print(confusion_matrix(y_test, y_pred))
+    cm = confusion_matrix(y_test, y_pred)
+    labels = sorted(set(y_test)) # unique labels
+    plt.figure(figsize=(8, 8))
+    plt.imshow(cm, cmap="Blues") # change color
+    plt.xticks(range(len(labels)), labels)
+    plt.yticks(range(len(labels)), labels)
+    for i in range(len(labels)):
+        for j in range(len(labels)):
+            plt.text(j, i, cm[i, j], ha="center", va="center")
+    plt.suptitle('Confusion matrix', fontsize=20)
+    plt.show()
+    # print("\nConfusion matrix:")
+    # print(cm)
