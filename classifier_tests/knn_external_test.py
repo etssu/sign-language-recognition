@@ -9,8 +9,8 @@ DATA_FILE = "../data/landmarks.csv"
 # Load data
 X_train, X_test, y_train, y_test = load_static_data_by_person(
     DATA_FILE,
-    train_person_ids=[1],
-    test_person_ids=[2]
+    train_person_ids=[2,3],
+    test_person_ids=[1]
 )
 
 print_test_train_split(X_train, X_test)
