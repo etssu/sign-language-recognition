@@ -33,6 +33,39 @@ def normalize_row(row, num_points=21, mirror=False):
 
     return values
 
+def normalize_landmarks(landmarks, mirror=False):
+    wrist_x = landmarks[0].x
+    wrist_y = landmarks[0].y
+
+    mid_x = landmarks[9].x
+    mid_y = landmarks[9].y
+
+    scale = np.sqrt(
+        (mid_x - wrist_x) ** 2 +
+        (mid_y - wrist_y) ** 2
+    )
+
+    if scale == 0:
+        scale = 1e-6
+
+    values = []
+
+    for i in range(21):
+        x = (landmarks[i].x - wrist_x) / scale
+
+        if mirror:
+            x = -x
+
+        values.append(x)
+        values.append(
+            (landmarks[i].y - wrist_y) / scale
+        )
+        values.append(
+            landmarks[i].z / scale
+        )
+
+    return values
+
 
 def load_static_data(file_path):
     df = pd.read_csv(file_path) # df - data frame

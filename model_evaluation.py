@@ -69,3 +69,9 @@ def train_and_evaluate_svm(X_train, X_test, y_train, y_test, kernel="linear", c=
     test_accuracy = accuracy_score(y_test, y_pred)
 
     return train_accuracy, test_accuracy, y_pred
+
+
+def train_knn(X_train, y_train, n_neighbors=7):
+    model = KNeighborsClassifier(n_neighbors=n_neighbors)
+    model.fit(X_train, y_train)
+    return model
