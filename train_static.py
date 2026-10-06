@@ -3,7 +3,6 @@ import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 
-
 from model_evaluation import train_knn
 from preprocessing import load_static_data_by_person, normalize_landmarks
 
@@ -49,7 +48,6 @@ def draw_landmarks(frame, hand_landmarks):
 
     for x, y in points:
         cv2.circle(frame, (x, y), 5, (0, 0, 255), -1)
-
 
 
 while True:
