@@ -229,5 +229,60 @@ def pad_sequences(sequences, max_seq_len):
     return X, seq_lengths
 
 
+def load_dynamic_data_for_dtw(file_path, train_person_ids, test_person_ids):
+    df = pd.read_csv(file_path)
+    df = df[df["gesture_type"] == "dynamic"].copy()
+
+    train_df = df[df["person_id"].isin(train_person_ids)]
+    test_df = df[df["person_id"].isin(test_person_ids)]
+
+    # TRAIN
+    train_sequences = []
+    train_labels = []
+
+    grouped = train_df.groupby(["person_id", "session_id"])
+
+    for (person_id, session_id), group in grouped:
+        group = group.sort_values("frame_number")
+
+        frames = np.array([
+            normalize_row(row)
+            for _, row in group.iterrows()
+        ])
+
+        train_sequences.append(frames)
+        train_labels.append(group["gesture"].iloc[0])
+
+    # TEST
+    test_sequences = []
+    test_labels = []
+
+    grouped = test_df.groupby(["person_id", "session_id"])
+
+    for (person_id, session_id), group in grouped:
+        group = group.sort_values("frame_number")
+
+        frames = np.array([
+            normalize_row(row)
+            for _, row in group.iterrows()
+        ])
+
+        test_sequences.append(frames)
+        test_labels.append(group["gesture"].iloc[0])
+
+    X_train = train_sequences
+    X_test = test_sequences
+
+    y_train = np.array(train_labels)
+    y_test = np.array(test_labels)
+
+    return (
+        X_train,
+        X_test,
+        y_train,
+        y_test,
+    )
+
+
 def flatten_sequences(X):
     return X.reshape(X.shape[0], -1)

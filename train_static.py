@@ -35,7 +35,7 @@ webcam = cv2.VideoCapture(0)
 
 def draw_landmarks(frame, hand_landmarks):
     # Draws hand landmarks and connections on the frame
-    h, w, c = frame.shape
+    h, w, _ = frame.shape
     points = []
 
     for landmark in hand_landmarks:
@@ -81,19 +81,11 @@ while True:
 
         prediction = model.predict([features])[0]
 
-        cv2.putText(
-            frame,
-            f"Prediction: {prediction}",
-            (20, 50),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            1,
-            (0, 255, 0),
-            2
-        )
+        cv2.putText(frame, f"Prediction: {prediction}",(20, 50),cv2.FONT_HERSHEY_SIMPLEX,1,(0, 255, 0),2)
 
     cv2.imshow("Frame", frame)
 
-    key = cv2.waitKey(1)
+    key = cv2.waitKey(1) & 0xFF
 
     if key == ord('q'):
         break

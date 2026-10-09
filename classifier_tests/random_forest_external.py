@@ -22,7 +22,7 @@ train_accuracy, test_accuracy, y_pred = train_and_evaluate_random_forest(
     X_test,
     y_train,
     y_test,
-    n_estimators=10
+    n_estimators=50
 )
 
 print_model_results("RANDOM FOREST",train_accuracy,test_accuracy,y_pred,y_test)
