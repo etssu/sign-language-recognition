@@ -29,7 +29,7 @@ train_accuracy, test_accuracy, y_pred = train_and_evaluate_knn(
     X_test,
     y_train,
     y_test,
-    n_neighbors=10,
+    n_neighbors=7,
     data_type="dynamic"
 )
 
