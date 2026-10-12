@@ -5,7 +5,7 @@ import csv
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 
-from collector_utils import wait_for_space, show_countdown, collect_static_gesture, collect_dynamic_gesture, \
+from utils.collector_utils import wait_for_space, show_countdown, collect_static_gesture, collect_dynamic_gesture, \
     wait_for_next_gesture, close_camera
 
 

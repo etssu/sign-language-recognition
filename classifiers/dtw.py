@@ -5,7 +5,6 @@ import numpy as np
 from dtaidistance import dtw_ndim
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
-from experiment_utils import print_test_train_split
 from preprocessing import load_dynamic_data_for_dtw
 
 

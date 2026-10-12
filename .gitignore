@@ -18,8 +18,8 @@ images/
 # landmarks data
 data/
 
-# docx file
-*.docx
+# documents
+docs/
 
 #gesture classes
 SPJ_one_hand_gesture_classes.xlsx

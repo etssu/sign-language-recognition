@@ -2,7 +2,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-from experiment_utils import print_test_train_split, print_model_results
+from utils.experiment_utils import print_test_train_split, print_model_results
 from preprocessing import load_static_data
 
 # 1. Load dataset

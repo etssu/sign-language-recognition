@@ -53,7 +53,7 @@ def draw_landmarks(frame, hand_landmarks):
 while True:
     ret, frame = webcam.read()
 
-    if not ret:
+    if not ret: # if frame is not available
         continue
 
     frame = cv2.flip(frame, 1)

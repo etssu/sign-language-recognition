@@ -3,7 +3,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 
-from experiment_utils import print_test_train_split, print_model_results
+from utils.experiment_utils import print_test_train_split, print_model_results
 from preprocessing import load_static_data
 
 # 1. Load dataset
