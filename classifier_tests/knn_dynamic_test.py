@@ -1,7 +1,7 @@
 import numpy as np
 
-from experiment_utils import print_dynamic_dataset_info, print_model_results, print_test_train_split
-from preprocessing import load_dynamic_data, flatten_sequences, load_dynamic_data_by_person
+from utils.experiment_utils import print_model_results, print_test_train_split
+from preprocessing import load_dynamic_data_by_person
 from model_evaluation import train_and_evaluate_knn
 
 

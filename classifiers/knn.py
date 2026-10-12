@@ -1,8 +1,8 @@
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score
 
-from experiment_utils import print_model_results, print_test_train_split
+from utils.experiment_utils import print_model_results, print_test_train_split
 from preprocessing import load_static_data
 
 # 1. Load dataset
