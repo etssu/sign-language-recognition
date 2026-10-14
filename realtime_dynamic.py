@@ -1,14 +1,14 @@
 import cv2
 import mediapipe as mp
 import numpy as np
+import time
 
 from collections import deque
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 
 from model_evaluation import train_knn
-from preprocessing import load_dynamic_data_by_person, normalize_landmarks
-
+from preprocessing import load_dynamic_data_by_person, normalize_landmarks, flatten_sequences
 
 HAND_CONNECTIONS = [
     (0, 1), (1, 2), (2, 3), (3, 4),
@@ -19,15 +19,17 @@ HAND_CONNECTIONS = [
 ]
 
 DATA_FILE = "data/landmarks.csv"
-SEQUENCE_LENGTH = 40
+SEQUENCE_LENGTH = 46
 
 # Train the model on dynamic gesture sequences
-X_train, X_test, y_train, y_test = load_dynamic_data_by_person(
-    DATA_FILE, [1, 2], []
+X_train, X_test, y_train, y_test, train_seq_lengths, test_seq_lengths = load_dynamic_data_by_person(
+    DATA_FILE, [1, 2], [3]
 )
+X_train = flatten_sequences(X_train)
+X_test = flatten_sequences(X_test)
+
 model = train_knn(X_train, y_train, 7)
 
-print("Training data shape:", X_train.shape)
 
 # Initialize MediaPipe Hand Landmarker
 base_options = python.BaseOptions(
@@ -66,6 +68,8 @@ def draw_landmarks(frame, hand_landmarks):
 
 
 try:
+    last_timestamp_ms = -1
+
     while True:
         ret, frame = webcam.read()
 
@@ -81,7 +85,13 @@ try:
             data=rgb_frame
         )
 
-        timestamp_ms = time.monotonic_ns() // 1_000_000
+        timestamp_ms = int(time.time() * 1000) # get current ms
+
+        if (timestamp_ms <= last_timestamp_ms):
+            last_timestamp_ms += 1
+        else:
+            last_timestamp_ms = timestamp_ms
+
 
         result = hand_landmarker.detect_for_video(
             mp_image, timestamp_ms
@@ -97,6 +107,7 @@ try:
             if len(buffer) == SEQUENCE_LENGTH:
                 # Convert the complete sequence into one feature vector
                 sequence = np.asarray(buffer).flatten()
+
 
                 if sequence.size == X_train.shape[1]:
                     prediction = model.predict([sequence])[0]

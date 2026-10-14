@@ -59,7 +59,7 @@ while gesture_type not in ("static", "dynamic"):
     gesture_type = input("Please type 'static' or 'dynamic': ")
 while True:
     gesture = input("Enter gesture: ")
-    if gesture.lower() == 'quit':
+    if gesture.lower() == '+-':
         break
 
     if not wait_for_space(person_id, gesture_type, gesture):

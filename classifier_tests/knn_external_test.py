@@ -3,14 +3,16 @@ from utils.experiment_utils import print_model_results, print_test_train_split
 from preprocessing import load_static_data_by_person
 from model_evaluation import train_and_evaluate_knn
 
+import pandas as pd
+
 DATA_FILE = "../data/landmarks.csv"
 
 
 # Load data
 X_train, X_test, y_train, y_test = load_static_data_by_person(
     DATA_FILE,
-    train_person_ids=[2,3],
-    test_person_ids=[1]
+    train_person_ids=[1,2,3],
+    test_person_ids=[5]
 )
 
 print_test_train_split(X_train, X_test)
@@ -22,7 +24,7 @@ train_accuracy, test_accuracy, y_pred = train_and_evaluate_knn(
     X_test,
     y_train,
     y_test,
-    n_neighbors=7,
+    n_neighbors=10,
 )
 
 print_model_results(
