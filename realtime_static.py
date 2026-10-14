@@ -16,7 +16,7 @@ HAND_CONNECTIONS = [
 
 DATA_FILE = "data/landmarks.csv"
 
-X_train, X_test, y_train, y_test = load_static_data_by_person(DATA_FILE, train_person_ids=[2,3], test_person_ids=[1])
+X_train, X_test, y_train, y_test = load_static_data_by_person(DATA_FILE, train_person_ids=[2,3,5], test_person_ids=[1])
 
 model = train_knn(X_train, y_train, 7)
 
