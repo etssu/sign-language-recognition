@@ -10,7 +10,7 @@ DATA_FILE = "../data/landmarks.csv"
 
 df = pd.read_csv(DATA_FILE)
 
-X_train, X_test, y_train, y_test = load_dynamic_data_for_dtw(DATA_FILE, [1,2], [3])
+X_train, X_test, y_train, y_test = load_dynamic_data_for_dtw(DATA_FILE, [1,2,6], [3])
 
 selected_gestures = {"Á", "Ä", "É", "Č", "Ď"}
 

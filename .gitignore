@@ -23,3 +23,6 @@ docs/
 
 #gesture classes
 SPJ_one_hand_gesture_classes.xlsx
+
+# temporary files
+~$*.xlsx

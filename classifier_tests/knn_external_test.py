@@ -10,9 +10,9 @@ DATA_FILE = "../data/landmarks.csv"
 
 # Load data
 X_train, X_test, y_train, y_test = load_static_data_by_person(
-    DATA_FILE,
-    train_person_ids=[1,2,3],
-    test_person_ids=[5]
+    DATA_FILE,    
+    train_person_ids=[5,2,3,6],
+    test_person_ids=[1]
 )
 
 print_test_train_split(X_train, X_test)
@@ -24,7 +24,7 @@ train_accuracy, test_accuracy, y_pred = train_and_evaluate_knn(
     X_test,
     y_train,
     y_test,
-    n_neighbors=10,
+    n_neighbors=25,
 )
 
 print_model_results(
