@@ -43,8 +43,6 @@ options = vision.HandLandmarkerOptions(
 hand_landmarker = vision.HandLandmarker.create_from_options(options)
 # Initialize webcam and the sliding buffer
 webcam = cv2.VideoCapture(0)
-buffer= deque(maxlen=SEQUENCE_LENGTH)
-prediction = None
 
 
 def draw_landmarks(frame, hand_landmarks):
@@ -66,7 +64,11 @@ def draw_landmarks(frame, hand_landmarks):
 
 try:
     last_timestamp_ms = -1
-    previous_wrist = None
+    static_prediction = None
+    dynamic_prediction = None
+
+    buffer = deque(maxlen=SEQUENCE_LENGTH)
+    wrist_history = deque(maxlen=10)
 
     while True:
         ret, frame = webcam.read()
@@ -100,18 +102,20 @@ try:
             current_wrist = (landmarks[0].x, landmarks[0].y)
             distance = 0
 
-            if previous_wrist is None:
-                print("None")
-            else:
-                dx = current_wrist[0] - previous_wrist[0]
-                dy = current_wrist[1] - previous_wrist[1]
-                distance = sqrt(dx**2 + dy**2)
 
-            previous_wrist = current_wrist
+            if len(wrist_history) == 10:
+                dx = current_wrist[0] - wrist_history[0][0]
+                dy = current_wrist[1] - wrist_history[0][1]
+                distance = sqrt(dx ** 2 + dy ** 2)
+
+            else:
+                distance = 0
+
+            wrist_history.append(current_wrist)
             cv2.putText(
                 frame,
                 f"Movement: {distance:.4f}",
-                (20, 80),
+                (20, 120),
                 cv2.FONT_HERSHEY_SIMPLEX,
                 0.8,
                 (255, 255, 0),
@@ -123,13 +127,15 @@ try:
             features = normalize_landmarks(landmarks)
             buffer.append(features)
 
+            static_prediction = model_static.predict([features])[0]
+
             if len(buffer) == SEQUENCE_LENGTH:
                 # Convert the complete sequence into one feature vector
                 sequence = np.asarray(buffer).flatten()
 
 
                 if sequence.size == X_train_dynamic.shape[1]:
-                    prediction = model_dynamic.predict([sequence])[0]
+                    dynamic_prediction = model_dynamic.predict([sequence])[0]
                 else:
                     prediction = None
                     cv2.putText(
@@ -143,12 +149,15 @@ try:
                     )
         else:
             # Wait for a new complete sequence when the hand disappears
-            previous_wrist = None
+            wrist_history.clear()
             buffer.clear()
-            prediction = None
+            dynamic_prediction = None
+            static_prediction = None
 
-        if prediction is not None:
-            cv2.putText(frame,f"Prediction: {prediction}",(20, 50),cv2.FONT_HERSHEY_SIMPLEX,0.8,(0, 255, 0),2)
+        if static_prediction is not None:
+            cv2.putText(frame,f"Static Prediction: {static_prediction}",(20, 50),cv2.FONT_HERSHEY_SIMPLEX,0.8,(0, 255, 0),2)
+        if dynamic_prediction is not None:
+            cv2.putText(frame, f"Dynamic Prediction: {dynamic_prediction}", (20, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
 
         cv2.imshow("Dynamic Gesture Recognition", frame)
 
