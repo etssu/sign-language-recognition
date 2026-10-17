@@ -8,7 +8,7 @@ DATA_FILE = "../data/landmarks.csv"
 
 X_train, X_test, y_train, y_test = load_static_data_by_person(
     DATA_FILE,
-    train_person_ids=[2, 3],
+    train_person_ids=[2, 3,5,6],
     test_person_ids=[1]
 )
 
@@ -20,7 +20,7 @@ train_accuracy, test_accuracy, y_pred = train_and_evaluate_svm(
     y_train,
     y_test,
     kernel="linear",
-    c=0.1
+    c=0.9
 )
 
 print_model_results(

@@ -33,6 +33,30 @@ def normalize_row(row, num_points=21, mirror=False):
 
     return values
 
+
+def normalize_row2(row, num_points=21, mirror=False):
+    # Normalizes a single frame. Returns None if the frame is invalid (scale ~ 0)
+    wrist_x, wrist_y, wrist_z = row["x0"], row["y0"] , row["z0"]  # wrist
+    mid_x, mid_y = row["x9"], row["y9"]  # middle finger
+
+    scale = np.sqrt(
+        (mid_x - wrist_x) ** 2 + (mid_y - wrist_y) ** 2)  # distance between the wrist and the base of the middle finger
+    if scale == 0:
+        scale = 1e-6
+
+    values = []
+    for i in range(num_points):
+        x = (row[f"x{i}"] - wrist_x) / scale
+
+        if mirror:
+            x = -x
+
+        values.append(x)
+        values.append((row[f"y{i}"] - wrist_y) / scale)
+        values.append((row[f"z{i}"] - wrist_z) / scale)
+
+    return values
+
 def normalize_landmarks(landmarks, mirror=False):
     wrist_x = landmarks[0].x
     wrist_y = landmarks[0].y
