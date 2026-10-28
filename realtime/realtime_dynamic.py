@@ -18,7 +18,7 @@ HAND_CONNECTIONS = [
     (13, 17), (0, 17), (17, 18), (18, 19), (19, 20)
 ]
 
-DATA_FILE = "data/landmarks.csv"
+DATA_FILE = "../data/landmarks.csv"
 SEQUENCE_LENGTH = 46
 
 # Train the model on dynamic gesture sequences
@@ -33,7 +33,7 @@ model = train_knn(X_train, y_train, 7)
 
 # Initialize MediaPipe Hand Landmarker
 base_options = python.BaseOptions(
-    model_asset_path="models/hand_landmarker.task"
+    model_asset_path="../models/hand_landmarker.task"
 )
 
 options = vision.HandLandmarkerOptions(

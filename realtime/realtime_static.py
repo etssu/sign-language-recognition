@@ -14,14 +14,14 @@ HAND_CONNECTIONS = [
     (13, 17), (0, 17), (17, 18), (18, 19), (19, 20)
 ]
 
-DATA_FILE = "data/landmarks.csv"
+DATA_FILE = "../data/landmarks.csv"
 
 X_train, X_test, y_train, y_test = load_static_data_by_person(DATA_FILE, train_person_ids=[2,3,5], test_person_ids=[1])
 
 model = train_knn(X_train, y_train, 7)
 
 # MediaPipe
-base_options = python.BaseOptions(model_asset_path="models/hand_landmarker.task")
+base_options = python.BaseOptions(model_asset_path="../models/hand_landmarker.task")
 
 options = vision.HandLandmarkerOptions(
     base_options=base_options,
