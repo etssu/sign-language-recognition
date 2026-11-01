@@ -8,7 +8,7 @@ class CameraWidget(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.video_label = QLabel("Нажми «Запустить камеру»")
+        self.video_label = QLabel("Click «Start Camera»")
         self.video_label.setMinimumSize(640, 360)
         self.video_label.setAlignment(
             Qt.AlignmentFlag.AlignCenter
@@ -29,7 +29,7 @@ class CameraWidget(QWidget):
         self.camera = cv2.VideoCapture(0)
 
         if not self.camera.isOpened():
-            self.video_label.setText("Не удалось открыть камеру")
+            self.video_label.setText("Failed to open camera")
             self.camera.release()
             self.camera = None
             return
