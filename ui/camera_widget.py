@@ -45,6 +45,7 @@ class CameraWidget(QWidget):
         if not success:
             return
 
+        frame = cv2.flip(frame, 1)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         height, width, _ = frame.shape
 
@@ -72,3 +73,6 @@ class CameraWidget(QWidget):
         if self.camera is not None:
             self.camera.release()
             self.camera = None
+
+        self.video_label.clear();
+        self.video_label.setText("Camera Stopped")

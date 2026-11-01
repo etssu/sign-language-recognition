@@ -1,24 +1,24 @@
 QWidget {
-    background-color: #15182D;
-    color: #DEF0F7;
+    background-color: #EEF2F8;
+    color: #15182D;
 }
 
 QPushButton#cameraButton {
     border: 1px solid;
     border-radius: 12px;
 
-    background-color: #343B72;
-    color: #DEF0F7;
+    background-color: #526B9F;
+    color: white;
     font-weight: bold;
 
     padding: 10px 15px;
 }
 
 QPushButton#cameraButton:hover {
-    background-color: #46518F;
+    background-color: #657FB5;
     color: white;
 }
 
 QPushButton#cameraButton:pressed {
-    background-color: #29305D;
+    background-color: #3D507D;
 }
