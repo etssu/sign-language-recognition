@@ -30,19 +30,21 @@ class MainWindow(QWidget):
         self.gesture_label = QLabel("—")
         self.gesture_label.setObjectName("gesture")
 
-        self.confidence_label = QLabel("Уверенность: —")
+        self.confidence_label = QLabel("Confidence: —")
 
         self.history_label = QLabel(
-            "История распознаваний появится здесь"
+            "Recognition history will appear here"
         )
         self.history_label.setWordWrap(True)
 
-        self.start_button = QPushButton("Запустить камеру")
+        self.start_button = QPushButton("Start Camera")
+        self.start_button.setObjectName("cameraButton")
         self.start_button.clicked.connect(
             self.camera_widget.start_camera
         )
 
-        self.stop_button = QPushButton("Остановить")
+        self.stop_button = QPushButton("Stop")
+        self.stop_button.setObjectName("cameraButton")
         self.stop_button.clicked.connect(
             self.camera_widget.stop_camera
         )
@@ -54,12 +56,12 @@ class MainWindow(QWidget):
         results = QHBoxLayout()
 
         current_box = QVBoxLayout()
-        current_box.addWidget(QLabel("Текущий жест"))
+        current_box.addWidget(QLabel("Current Gesture"))
         current_box.addWidget(self.gesture_label)
         current_box.addWidget(self.confidence_label)
 
         history_box = QVBoxLayout()
-        history_box.addWidget(QLabel("История"))
+        history_box.addWidget(QLabel("History"))
         history_box.addWidget(self.history_label)
 
         results.addLayout(current_box, 1)
@@ -75,7 +77,7 @@ class MainWindow(QWidget):
 
     def load_styles(self):
         try:
-            with open("styles.qss", encoding="utf-8") as file:
+            with open("ui/styles.qss", encoding="utf-8") as file:
                 self.setStyleSheet(file.read())
         except FileNotFoundError:
             pass
