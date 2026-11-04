@@ -7,13 +7,13 @@ DATA_FILE = "../data/landmarks.csv"
 
 
 # Load data
-X_train, X_test, y_train, y_test, train_seq_len, test_seq_len = load_dynamic_data_by_person(DATA_FILE, [3,4], [2])
+X_train, X_test, y_train, y_test, train_seq_len, test_seq_len = load_dynamic_data_by_person(DATA_FILE, [1,2], [3])
 
 print_test_train_split(X_train, X_test)
 
 
 # Random Forest
-train_accuracy, test_accuracy, y_pred = train_and_evaluate_random_forest(
+train_accuracy, test_accuracy, y_pred, training_time, pred_time = train_and_evaluate_random_forest(
     X_train,
     X_test,
     y_train,
@@ -23,3 +23,6 @@ train_accuracy, test_accuracy, y_pred = train_and_evaluate_random_forest(
 )
 
 print_model_results("RANDOM FOREST",train_accuracy,test_accuracy,y_pred,y_test)
+
+print(f"Training time: {training_time}s")
+print(f"Average Prediction time: {pred_time}ms")
