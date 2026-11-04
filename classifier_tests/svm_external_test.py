@@ -8,13 +8,13 @@ DATA_FILE = "../data/landmarks.csv"
 
 X_train, X_test, y_train, y_test = load_static_data_by_person(
     DATA_FILE,
-    train_person_ids=[2, 3,5,6],
-    test_person_ids=[1]
+    train_person_ids=[1,2],
+    test_person_ids=[3]
 )
 
 print_test_train_split(X_train, X_test)
 
-train_accuracy, test_accuracy, y_pred = train_and_evaluate_svm(
+train_accuracy, test_accuracy, y_pred, training_time, pred_time = train_and_evaluate_svm(
     X_train,
     X_test,
     y_train,
@@ -30,3 +30,6 @@ print_model_results(
     y_pred,
     y_test
 )
+
+print(f"Training time: {training_time}s")
+print(f"Average Prediction time: {pred_time}ms")
