@@ -1,6 +1,7 @@
-import sys
 
-from PySide6.QtCore import Qt
+import sys
+from datetime import datetime
+
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
@@ -9,6 +10,8 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QFrame,
+    QListWidget,
+    QListWidgetItem,
 )
 
 from ui.camera_widget import CameraWidget
@@ -19,23 +22,21 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.setWindowTitle("Sign Language Recognition")
-        self.resize(1000, 800)
+        self.resize(1200, 800)
 
         self.camera_widget = CameraWidget()
 
+        # Title
         title = QLabel("Sign Language Recognition")
         title.setObjectName("title")
 
+        # Current gesture
         self.gesture_label = QLabel("—")
         self.gesture_label.setObjectName("gesture")
 
         self.confidence_label = QLabel("Confidence: —")
 
-        self.history_label = QLabel(
-            "Recognition history will appear here"
-        )
-        self.history_label.setWordWrap(True)
-
+        # Camera buttons
         self.start_button = QPushButton("Start Camera")
         self.start_button.setObjectName("cameraButton")
         self.start_button.clicked.connect(
@@ -52,27 +53,57 @@ class MainWindow(QWidget):
         camera_buttons.addWidget(self.start_button)
         camera_buttons.addWidget(self.stop_button)
 
-        results = QHBoxLayout()
-
+        # Current gesture section
         current_box = QVBoxLayout()
         current_box.addWidget(QLabel("Current Gesture"))
         current_box.addWidget(self.gesture_label)
         current_box.addWidget(self.confidence_label)
 
-        history_box = QVBoxLayout()
-        history_box.addWidget(QLabel("History"))
-        history_box.addWidget(self.history_label)
+        # Left side: camera and recognition
+        left_layout = QVBoxLayout()
+        left_layout.addWidget(title)
+        left_layout.addWidget(self.camera_widget, 3)
+        left_layout.addLayout(camera_buttons)
+        left_layout.addLayout(current_box)
 
-        results.addLayout(current_box, 1)
-        results.addLayout(history_box, 2)
+        # Right side: history panel
+        history_panel = QFrame()
+        history_panel.setObjectName("historyPanel")
 
-        layout = QVBoxLayout(self)
-        layout.addWidget(title)
-        layout.addWidget(self.camera_widget, 3)
-        layout.addLayout(camera_buttons)
-        layout.addLayout(results, 1)
+        history_layout = QVBoxLayout(history_panel)
+
+        history_title = QLabel("Recognition History")
+        history_title.setObjectName("historyTitle")
+
+        self.history_list = QListWidget()
+        self.history_list.setObjectName("historyList")
+
+        history_layout.addWidget(history_title)
+        history_layout.addWidget(self.history_list)
+
+        # Separator
+        separator = QFrame()
+        separator.setFrameShape(QFrame.Shape.VLine)
+        separator.setFrameShadow(QFrame.Shadow.Sunken)
+
+        # Main layout
+        main_layout = QHBoxLayout(self)
+        main_layout.addLayout(left_layout, 1)
+        main_layout.addWidget(separator)
+        main_layout.addWidget(history_panel)
+
+        history_panel.setFixedWidth(280)
 
         self.load_styles()
+
+    def add_history_item(self, gesture, confidence):
+        time = datetime.now().strftime("%H:%M:%S")
+
+        item = QListWidgetItem(
+            f"{gesture}\n{time}                         {confidence:.1f}%"
+        )
+
+        self.history_list.insertItem(0, item)
 
     def load_styles(self):
         try:
