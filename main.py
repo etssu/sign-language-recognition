@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QFrame,
     QListWidget,
-    QListWidgetItem,
+    QListWidgetItem, QComboBox,
 )
 
 from ui.camera_widget import CameraWidget
@@ -29,6 +29,10 @@ class MainWindow(QWidget):
         # Title
         title = QLabel("Sign Language Recognition")
         title.setObjectName("title")
+
+        # Dropdown list
+        combobox = QComboBox(self)
+        combobox.addItems(['KNN Static [ODPORUCANE]', 'RF Static', 'SVM Static', 'KNN Dynamic', 'RF Dynamic', 'SVM Dynamic', 'DTW DYNAMIC [ODPORUCANE]'])
 
         # Current gesture
         self.gesture_label = QLabel("—")
@@ -62,9 +66,10 @@ class MainWindow(QWidget):
         # Left side: camera and recognition
         left_layout = QVBoxLayout()
         left_layout.addWidget(title)
+        left_layout.addWidget(combobox)
         left_layout.addWidget(self.camera_widget, 3)
-        left_layout.addLayout(camera_buttons)
         left_layout.addLayout(current_box)
+        left_layout.addLayout(camera_buttons)
 
         # Right side: history panel
         history_panel = QFrame()

@@ -1,4 +1,4 @@
-import numpy as np
+import joblib
 
 from utils.experiment_utils import print_model_results, print_test_train_split
 from preprocessing import load_dynamic_data_by_person
@@ -14,16 +14,14 @@ X_train, X_test, y_train, y_test, train_seq_len, test_seq_len = load_dynamic_dat
 print_test_train_split(X_train, X_test)
 
 # KNN
-train_accuracy, test_accuracy, y_pred, training_time, pred_time = train_and_evaluate_knn(
+train_accuracy, test_accuracy, y_pred, knn_model = train_and_evaluate_knn(
     X_train,
     X_test,
     y_train,
     y_test,
-    n_neighbors=7,
+    n_neighbors=15,
     data_type="dynamic"
 )
 
 print_model_results("KNN", train_accuracy, test_accuracy,  y_pred, y_test)
-print("Training distribution:", Counter(y_train))
-print(f"Training time: {training_time}s")
-print(f"Average Prediction time: {pred_time}ms")
+joblib.dump(knn_model, "../trained_models/knn_model.pkl")

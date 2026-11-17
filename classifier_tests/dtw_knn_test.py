@@ -1,7 +1,8 @@
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
+import joblib
 
 from collections import Counter
 from dtaidistance import dtw_ndim
@@ -19,7 +20,7 @@ TRAINING_SIZES = [120, 240, 360, 600, 900, 1200, 1439]
 PREDICTION_TIMES = []
 AVG_PREDICTION_TIMES = []
 
-k = 7
+k = 15
 
 
 # Load dynamic gesture data
@@ -94,10 +95,6 @@ for num_samples in TRAINING_SIZES:
     PREDICTION_TIMES.append(pred_time)
     AVG_PREDICTION_TIMES.append(avg_prediction_time)
 
-    print(f"\nTraining samples: {num_samples}")
-    print(f"Total prediction time: {pred_time:.4f} s")
-    print(f"Average prediction time: {avg_prediction_time:.4f} ms")
-
 
 # Train prediction for accuracy evaluation
 y_train_pred = []
@@ -162,16 +159,3 @@ print(classification_report(y_test, y_pred, zero_division=0))
 
 print("Confusion matrix:")
 print(confusion_matrix(y_test, y_pred, labels=sorted(set(y_test))))
-
-
-# Plot prediction time depending on training dataset size
-plt.figure(figsize=(9, 5))
-plt.plot(TRAINING_SIZES, AVG_PREDICTION_TIMES, marker="o")
-
-plt.xlabel("Number of training sequences")
-plt.ylabel("Average prediction time (ms/sequence)")
-plt.title("DTW-KNN prediction time depending on training dataset size")
-
-plt.grid(True)
-plt.tight_layout()
-plt.show()
