@@ -1,4 +1,3 @@
-
 import sys
 from datetime import datetime
 
@@ -15,15 +14,22 @@ from PySide6.QtWidgets import (
 )
 
 from ui.camera_widget import CameraWidget
+from utils.model_loader import load_model
 
 
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
 
+        # Load model
+        self.knn_static_model = load_model()
+        self.knn_dynamic_model = load_model()
+        print("Model loaded:", type(self.knn_model))
+
         self.setWindowTitle("Sign Language Recognition")
         self.resize(1200, 800)
 
+        # Load model
         self.camera_widget = CameraWidget()
 
         # Title

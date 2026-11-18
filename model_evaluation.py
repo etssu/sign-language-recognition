@@ -13,9 +13,7 @@ def train_and_evaluate_knn(X_train, X_test, y_train, y_test, n_neighbors=15, dat
         X_test = flatten_sequences(X_test)
 
     model = KNeighborsClassifier(n_neighbors=n_neighbors)
-
     model.fit(X_train, y_train)
-
 
     y_train_pred = model.predict(X_train)
     y_pred = model.predict(X_test)

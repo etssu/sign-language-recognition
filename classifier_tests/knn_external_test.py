@@ -1,3 +1,4 @@
+import joblib
 
 from utils.experiment_utils import print_model_results, print_test_train_split
 from preprocessing import load_static_data_by_person
@@ -20,12 +21,12 @@ print_test_train_split(X_train, X_test)
 
 
 # KNN - static
-train_accuracy, test_accuracy, y_pred, training_time, pred_time = train_and_evaluate_knn(
+train_accuracy, test_accuracy, y_pred, knn_static_model = train_and_evaluate_knn(
     X_train,
     X_test,
     y_train,
     y_test,
-    n_neighbors=25,
+    n_neighbors=15,
 )
 
 print_model_results(
@@ -35,6 +36,4 @@ print_model_results(
     y_pred,
     y_test
 )
-
-print(f"Training time: {training_time}s")
-print(f"Average Prediction time: {pred_time}ms")
+joblib.dump(knn_static_model, "../trained_models/knn_static_model.pkl")
