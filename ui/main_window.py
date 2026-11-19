@@ -1,5 +1,6 @@
 import sys
 from datetime import datetime
+from pathlib import Path
 
 from PySide6.QtWidgets import (
     QApplication,
@@ -43,12 +44,6 @@ class MainWindow(QWidget):
         combobox = QComboBox(self)
         combobox.addItems(['KNN Static [ODPORUCANE]', 'RF Static', 'SVM Static', 'KNN Dynamic', 'RF Dynamic', 'SVM Dynamic', 'DTW DYNAMIC [ODPORUCANE]'])
 
-        # Current gesture
-        self.gesture_label = QLabel("—")
-        self.gesture_label.setObjectName("gesture")
-
-        self.confidence_label = QLabel("Confidence: —")
-
         # Camera buttons
         self.start_button = QPushButton("Start Camera")
         self.start_button.setObjectName("cameraButton")
@@ -66,18 +61,11 @@ class MainWindow(QWidget):
         camera_buttons.addWidget(self.start_button)
         camera_buttons.addWidget(self.stop_button)
 
-        # Current gesture section
-        current_box = QVBoxLayout()
-        current_box.addWidget(QLabel("Current Gesture"))
-        current_box.addWidget(self.gesture_label)
-        current_box.addWidget(self.confidence_label)
-
         # Left side: camera and recognition
         left_layout = QVBoxLayout()
         left_layout.addWidget(title)
         left_layout.addWidget(combobox)
         left_layout.addWidget(self.camera_widget, 3)
-        left_layout.addLayout(current_box)
         left_layout.addLayout(camera_buttons)
 
         # Right side: history panel
@@ -112,11 +100,8 @@ class MainWindow(QWidget):
 
     def process_frame(self, frame):
         prediction = self.recognition.process_frame(frame)
+        self.camera_widget.current_gesture = prediction
 
-        if prediction is None:
-            return
-
-        print("Static prediction:", prediction)
 
     def add_history_item(self, gesture, confidence):
         time = datetime.now().strftime("%H:%M:%S")
@@ -129,13 +114,22 @@ class MainWindow(QWidget):
 
     def load_styles(self):
         try:
-            with open("ui/styles.qss", encoding="utf-8") as file:
-                self.setStyleSheet(file.read())
+            styles_path = (
+                    Path(__file__).resolve().parent
+                    / "styles.qss"
+            )
+            print("Styles path:", styles_path)
+            print("File exists:", styles_path.exists())
+
+            if styles_path.exists():
+                with open(styles_path, encoding="utf-8") as file:
+                    self.setStyleSheet(file.read())
         except FileNotFoundError:
             pass
 
     def closeEvent(self, event):
         self.camera_widget.stop_camera()
+        self.recognition.close()
         event.accept()
 
 

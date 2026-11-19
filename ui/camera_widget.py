@@ -9,6 +9,7 @@ class CameraWidget(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.current_gesture = None
 
         self.video_label = QLabel("Click «Start Camera»")
         self.video_label.setMinimumSize(640, 360)
@@ -49,6 +50,7 @@ class CameraWidget(QWidget):
 
         frame = cv2.flip(frame, 1)
         self.frame_ready.emit(frame)
+        self.draw_gesture(frame, self.current_gesture)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         height, width, _ = frame.shape
 
@@ -79,3 +81,18 @@ class CameraWidget(QWidget):
 
         self.video_label.clear();
         self.video_label.setText("Camera Stopped")
+
+    def draw_gesture(self, frame, gesture):
+        if gesture is None:
+            return
+
+        cv2.putText(
+            frame,
+            str(gesture),
+            (30, 70),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            2,
+            (82, 107, 159),
+            3,
+            cv2.LINE_AA
+        )
