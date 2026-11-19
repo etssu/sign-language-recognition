@@ -1,10 +1,12 @@
 import cv2
 
-from PySide6.QtCore import QTimer, Qt
+from PySide6.QtCore import QTimer, Qt, Signal
 from PySide6.QtGui import QImage, QPixmap
 from PySide6.QtWidgets import QLabel, QWidget, QVBoxLayout
 
 class CameraWidget(QWidget):
+    frame_ready = Signal(object)
+
     def __init__(self):
         super().__init__()
 
@@ -46,6 +48,7 @@ class CameraWidget(QWidget):
             return
 
         frame = cv2.flip(frame, 1)
+        self.frame_ready.emit(frame)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         height, width, _ = frame.shape
 

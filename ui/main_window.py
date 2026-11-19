@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (
 
 from ui.camera_widget import CameraWidget
 from utils.model_loader import load_model
+from utils.recognition import Recognition
 
 
 class MainWindow(QWidget):
@@ -22,15 +23,17 @@ class MainWindow(QWidget):
         super().__init__()
 
         # Load model
-        self.knn_static_model = load_model()
-        self.knn_dynamic_model = load_model()
-        print("Model loaded:", type(self.knn_model))
+        self.knn_static_model = load_model("knn_static_model")
+        self.knn_dynamic_model = load_model("knn_dynamic_model")
+
+        self.recognition = Recognition(self.knn_static_model, self.knn_dynamic_model)
 
         self.setWindowTitle("Sign Language Recognition")
         self.resize(1200, 800)
 
-        # Load model
+        # Load Camera
         self.camera_widget = CameraWidget()
+        self.camera_widget.frame_ready.connect(self.process_frame)
 
         # Title
         title = QLabel("Sign Language Recognition")
@@ -106,6 +109,14 @@ class MainWindow(QWidget):
         history_panel.setFixedWidth(280)
 
         self.load_styles()
+
+    def process_frame(self, frame):
+        prediction = self.recognition.process_frame(frame)
+
+        if prediction is None:
+            return
+
+        print("Static prediction:", prediction)
 
     def add_history_item(self, gesture, confidence):
         time = datetime.now().strftime("%H:%M:%S")
