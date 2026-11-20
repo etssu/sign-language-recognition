@@ -1,0 +1,232 @@
+{
+  "greeting_farewell": {
+    "meaning": "Pozdrav pri stretnutí alebo lúčení.",
+    "usage": "Používa sa pri stretnutí s niekým alebo pri rozlúčke.",
+    "example": "Ahoj, ako sa máš?"
+  },
+  "yes": {
+    "meaning": "Vyjadrenie súhlasu alebo kladnej odpovede.",
+    "usage": "Používa sa na vyjadrenie súhlasu. Môže fungovať aj ako hodnotiaca častica na intenzifikáciu významu posunku.",
+    "example": "Áno, rozumiem."
+  },
+  "pain": {
+    "meaning": "Nepríjemný telesný alebo emocionálny pocit.",
+    "usage": "Používa sa pri vyjadrovaní bolesti alebo upozornení na bolestivý stav.",
+    "example": "Bolí ma hlava."
+  },
+  "thank_you": {
+    "meaning": "Vyjadrenie vďačnosti alebo poďakovania.",
+    "usage": "Používa sa ako reakcia na pomoc, dar alebo prejavenú láskavosť.",
+    "example": "Ďakujem za pomoc."
+  },
+  "no": {
+    "meaning": "Záporná častica vyjadrujúca nesúhlas alebo zápornú odpoveď.",
+    "usage": "Používa sa pri odmietnutí alebo ako odpoveď na otázku.",
+    "example": "Povedala, že nie."
+  },
+  "pronoun_i": {
+    "meaning": "Osobné zámeno označujúce hovoriacu osobu.",
+    "usage": "Používa sa, keď hovoriaci hovorí o sebe.",
+    "example": "Ja som študent."
+  },
+  "pronoun_you_singular": {
+    "meaning": "Osobné zámeno označujúce jednu osobu, ktorej sa prihovárame.",
+    "usage": "Používa sa pri priamej komunikácii s jednou osobou.",
+    "example": "Ty si môj kamarát."
+  },
+  "pronoun_we": {
+    "meaning": "Osobné zámeno označujúce skupinu, do ktorej patrí hovoriaca osoba.",
+    "usage": "Používa sa, keď hovoriaci hovorí o sebe a ďalších osobách.",
+    "example": "My sme spolužiaci."
+  },
+  "pronoun_you_plural": {
+    "meaning": "Osobné zámeno označujúce viacero osôb, ktorým sa prihovárame.",
+    "usage": "Používa sa pri priamej komunikácii s viacerými osobami.",
+    "example": "Vy ste študenti."
+  },
+  "pronoun_she": {
+    "meaning": "Osobné zámeno označujúce osobu ženského rodu.",
+    "usage": "Používa sa pri hovorení o žene alebo dievčati.",
+    "example": "Ona je moja sestra."
+  },
+  "pronoun_he": {
+    "meaning": "Osobné zámeno označujúce osobu mužského rodu.",
+    "usage": "Používa sa pri hovorení o mužovi alebo chlapcovi.",
+    "example": "On je môj brat."
+  },
+  "pronoun_they": {
+    "meaning": "Osobné zámeno označujúce skupinu osôb.",
+    "usage": "Používa sa pri hovorení o viacerých osobách.",
+    "example": "Oni sú moji priatelia."
+  },
+  "ask": {
+    "meaning": "Vyjadrenie otázky, prosby alebo žiadosti.",
+    "usage": "Používa sa pri získavaní informácií alebo pri žiadaní o niečo.",
+    "example": "Chcem ťa o niečo poprosiť."
+  },
+  "water": {
+    "meaning": "Voda, tekutina nevyhnutná pre život.",
+    "usage": "Používa sa pri pomenovaní vody alebo pri komunikácii o pití.",
+    "example": "Prosím si pohár vody."
+  },
+  "eat": {
+    "meaning": "Prijímať potravu ústami.",
+    "usage": "Používa sa pri vyjadrovaní jedenia alebo konzumácie jedla.",
+    "example": "Idem jesť."
+  },
+  "drink": {
+    "meaning": "Prijímať tekutinu pitím.",
+    "usage": "Používa sa pri vyjadrovaní pitia tekutín.",
+    "example": "Chcem piť vodu."
+  },
+  "want": {
+    "meaning": "Vyjadrenie túžby alebo želania niečo získať alebo urobiť.",
+    "usage": "Používa sa pri vyjadrovaní toho, čo osoba chce alebo si želá.",
+    "example": "Chcem sa učiť."
+  },
+  "understand": {
+    "meaning": "Chápať význam informácie alebo situácie.",
+    "usage": "Používa sa pri vyjadrovaní porozumenia alebo neporozumenia.",
+    "example": "Rozumiem ti."
+  },
+  "learn": {
+    "meaning": "Získavať nové vedomosti alebo schopnosti.",
+    "usage": "Používa sa pri vyjadrovaní procesu učenia sa.",
+    "example": "Učím sa posunkový jazyk."
+  },
+  "see": {
+    "meaning": "Vnímať zrakom alebo pozorovať.",
+    "usage": "Používa sa pri vyjadrovaní videnia alebo pozorovania niečoho.",
+    "example": "Vidím ťa."
+  },
+  "go": {
+    "meaning": "Presúvať sa z jedného miesta na druhé.",
+    "usage": "Používa sa pri vyjadrovaní pohybu alebo odchodu.",
+    "example": "Idem do školy."
+  },
+  "come": {
+    "meaning": "Priblížiť sa alebo presunúť sa smerom k určitému miestu alebo osobe.",
+    "usage": "Používa sa pri vyjadrovaní príchodu alebo približovania sa.",
+    "example": "Príď sem."
+  },
+  "good": {
+    "meaning": "Pozitívne hodnotenie osoby, veci alebo situácie.",
+    "usage": "Používa sa na vyjadrenie pozitívneho hodnotenia alebo kvality.",
+    "example": "To je dobré."
+  },
+  "bad": {
+    "meaning": "Negatívne hodnotenie osoby, veci alebo situácie.",
+    "usage": "Používa sa na vyjadrenie negatívneho hodnotenia alebo kvality.",
+    "example": "To je zlé."
+  },
+  "big": {
+    "meaning": "Označenie veľkej veľkosti alebo rozsahu.",
+    "usage": "Používa sa pri opisovaní veľkosti predmetov alebo iných vecí.",
+    "example": "To je veľký dom."
+  },
+  "small": {
+    "meaning": "Označenie malej veľkosti alebo rozsahu.",
+    "usage": "Používa sa pri opisovaní malých predmetov alebo iných vecí.",
+    "example": "To je malý pes."
+  },
+  "tired": {
+    "meaning": "Stav únavy alebo nedostatku energie.",
+    "usage": "Používa sa pri vyjadrovaní fyzickej alebo psychickej únavy.",
+    "example": "Som unavený."
+  },
+  "tomorrow": {
+    "meaning": "Deň nasledujúci po dnešnom dni.",
+    "usage": "Používa sa pri hovorení o udalostiach v nasledujúci deň.",
+    "example": "Zajtra idem do školy."
+  },
+  "who": {
+    "meaning": "Opytovacie zámeno používané pri zisťovaní totožnosti osoby.",
+    "usage": "Používa sa pri otázkach o osobe alebo osobách.",
+    "example": "Kto je to?"
+  },
+  "where": {
+    "meaning": "Opytovacie príslovkové zámeno používané pri zisťovaní miesta.",
+    "usage": "Používa sa pri otázkach o polohe alebo mieste.",
+    "example": "Kde bývaš?"
+  },
+  "when": {
+    "meaning": "Opytovacie príslovkové zámeno používané pri zisťovaní času.",
+    "usage": "Používa sa pri otázkach o čase alebo termíne.",
+    "example": "Kedy prídeš?"
+  },
+  "how": {
+    "meaning": "Opytovacie príslovkové zámeno používané pri zisťovaní spôsobu alebo stavu.",
+    "usage": "Používa sa pri otázkach o spôsobe vykonania činnosti alebo o stave osoby.",
+    "example": "Ako sa máš?"
+  },
+  "why": {
+    "meaning": "Opytovacie príslovkové zámeno používané pri zisťovaní príčiny alebo dôvodu.",
+    "usage": "Používa sa pri otázkach o dôvode alebo príčine.",
+    "example": "Prečo si smutný?"
+  },
+  "phone": {
+    "meaning": "Zariadenie určené na telefonovanie a komunikáciu.",
+    "usage": "Používa sa pri pomenovaní telefónu alebo komunikácii o telefonovaní.",
+    "example": "Kde mám telefón?"
+  },
+  "go_home": {
+    "meaning": "Ísť smerom do domu alebo do svojho domova.",
+    "usage": "Používa sa pri vyjadrovaní návratu alebo odchodu domov.",
+    "example": "Idem domov."
+  },
+  "school": {
+    "meaning": "Vzdelávacia inštitúcia, v ktorej sa žiaci učia.",
+    "usage": "Používa sa pri hovorení o škole alebo vzdelávaní.",
+    "example": "Idem do školy."
+  },
+  "university": {
+    "meaning": "Vysoká škola poskytujúca vysokoškolské vzdelanie.",
+    "usage": "Používa sa pri hovorení o vysokoškolskom štúdiu alebo univerzite.",
+    "example": "Študujem na vysokej škole."
+  },
+  "food": {
+    "meaning": "Potraviny alebo pokrm určený na jedenie.",
+    "usage": "Používa sa pri pomenovaní jedla alebo potravín.",
+    "example": "Jedlo je pripravené."
+  },
+  "friend": {
+    "meaning": "Osoba, s ktorou má niekto blízky a priateľský vzťah.",
+    "usage": "Používa sa pri hovorení o priateľoch a kamarátoch.",
+    "example": "To je môj kamarát."
+  },
+  "write": {
+    "meaning": "Zaznamenávať písmená, slová alebo text.",
+    "usage": "Používa sa pri vyjadrovaní písania textu alebo informácií.",
+    "example": "Píšem list."
+  },
+  "day": {
+    "meaning": "Časové obdobie trvajúce 24 hodín alebo časť dňa so svetlom.",
+    "usage": "Používa sa pri hovorení o dni alebo časovom období.",
+    "example": "Dnes je pekný deň."
+  },
+  "dog": {
+    "meaning": "Domáce zviera patriace medzi cicavce.",
+    "usage": "Používa sa pri pomenovaní psa.",
+    "example": "Mám psa."
+  },
+  "money": {
+    "meaning": "Platobný prostriedok používaný na nákup tovarov a služieb.",
+    "usage": "Používa sa pri hovorení o peniazoch, platení alebo nákupoch.",
+    "example": "Nemám pri sebe peniaze."
+  },
+  "affection": {
+    "meaning": "Silný cit náklonnosti alebo lásky k niekomu alebo niečomu.",
+    "usage": "Používa sa pri vyjadrovaní citovej náklonnosti.",
+    "example": "Láska je dôležitá."
+  },
+  "like": {
+    "meaning": "Pociťovať sympatie alebo mať niečo v obľube.",
+    "usage": "Používa sa pri vyjadrovaní toho, že sa niekomu niečo páči alebo má niečo rád.",
+    "example": "Mám rád hudbu."
+  },
+  "love": {
+    "meaning": "Prejavovať silnú náklonnosť alebo hlboký cit k niekomu alebo niečomu.",
+    "usage": "Používa sa pri vyjadrovaní intenzívnej náklonnosti alebo lásky.",
+    "example": "Milujem svoju rodinu."
+  }
+}

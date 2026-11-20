@@ -175,10 +175,10 @@
     "dataset_labels": ["Voda"]
   },
   "eat": {
-    "dataset_labels": ["Jesť", "konzumovať"]
+    "dataset_labels": ["Jesť"]
   },
   "drink": {
-    "dataset_labels": ["Piť", "konzumovať"]
+    "dataset_labels": ["Piť"]
   },
   "want": {
     "dataset_labels": ["Chcieť"]
