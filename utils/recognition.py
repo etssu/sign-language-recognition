@@ -65,11 +65,15 @@ class Recognition:
         if result.hand_landmarks:
             self.draw_landmarks(frame, result.hand_landmarks[0])
             features = normalize_landmarks(result.hand_landmarks[0])
-            prediction = self.static_model.predict([features])[0]
+            probabilities = self.static_model.predict_proba([features])[0]
 
-            return prediction
+            best_index = probabilities.argmax()
+            prediction = self.static_model.classes_[best_index]
+            confidence = float(probabilities[best_index]) * 100
 
-        return None
+            return prediction, confidence
+
+        return None, None
 
     def draw_landmarks(self, frame, landmarks):
         height, width, _ = frame.shape

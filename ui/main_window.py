@@ -35,6 +35,8 @@ class MainWindow(QWidget):
         # Load Camera
         self.camera_widget = CameraWidget()
         self.camera_widget.frame_ready.connect(self.process_frame)
+        self.confidence_label = QLabel("Confidence: —")
+        self.confidence_label.setObjectName("confidenceLabel")
 
         # Title
         title = QLabel("Sign Language Recognition")
@@ -66,6 +68,8 @@ class MainWindow(QWidget):
         left_layout.addWidget(title)
         left_layout.addWidget(combobox)
         left_layout.addWidget(self.camera_widget, 3)
+        left_layout.addWidget(self.confidence_label)
+        left_layout.addLayout(camera_buttons)
         left_layout.addLayout(camera_buttons)
 
         # Right side: history panel
@@ -99,8 +103,19 @@ class MainWindow(QWidget):
         self.load_styles()
 
     def process_frame(self, frame):
-        prediction = self.recognition.process_frame(frame)
+        prediction, confidence = self.recognition.process_frame(frame)
+
         self.camera_widget.current_gesture = prediction
+
+        self.current_prediction = prediction
+        self.current_confidence = confidence
+
+        if confidence is not None:
+            self.confidence_label.setText(
+                f"Confidence: {confidence:.1f}%"
+            )
+        else:
+            self.confidence_label.setText("Confidence: —")
 
 
     def add_history_item(self, gesture, confidence):
