@@ -16,8 +16,9 @@ __pycache__/
 # images folder
 images/
 
-# landmarks data
-data/
+# private info
+participants.xlsx
+letters_copy
 
 # documents
 docs/

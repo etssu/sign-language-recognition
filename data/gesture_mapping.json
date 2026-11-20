@@ -1,0 +1,273 @@
+{
+  "letter_a": {
+    "dataset_labels": ["A"]
+  },
+  "letter_a_acute": {
+    "dataset_labels": ["Á"]
+  },
+  "letter_a_umlaut": {
+    "dataset_labels": ["Ä"]
+  },
+  "letter_b": {
+    "dataset_labels": ["B"]
+  },
+  "letter_c": {
+    "dataset_labels": ["C"]
+  },
+  "letter_c_caron": {
+    "dataset_labels": ["Č"]
+  },
+  "letter_d": {
+    "dataset_labels": ["D"]
+  },
+  "letter_d_caron": {
+    "dataset_labels": ["Ď"]
+  },
+  "letter_e": {
+    "dataset_labels": ["E"]
+  },
+  "letter_e_acute": {
+    "dataset_labels": ["É"]
+  },
+  "letter_f": {
+    "dataset_labels": ["F"]
+  },
+  "letter_g": {
+    "dataset_labels": ["G"]
+  },
+  "letter_h": {
+    "dataset_labels": ["H"]
+  },
+  "letter_ch": {
+    "dataset_labels": ["CH"]
+  },
+  "letter_i": {
+    "dataset_labels": ["I"]
+  },
+  "letter_i_acute": {
+    "dataset_labels": ["Í"]
+  },
+  "letter_j": {
+    "dataset_labels": ["J"]
+  },
+  "letter_k": {
+    "dataset_labels": ["K"]
+  },
+  "letter_l": {
+    "dataset_labels": ["L"]
+  },
+  "letter_l_acute": {
+    "dataset_labels": ["Ĺ"]
+  },
+  "letter_l_caron": {
+    "dataset_labels": ["Ľ"]
+  },
+  "letter_m": {
+    "dataset_labels": ["M"]
+  },
+  "letter_n": {
+    "dataset_labels": ["N"]
+  },
+  "letter_n_caron": {
+    "dataset_labels": ["Ň"]
+  },
+  "letter_o": {
+    "dataset_labels": ["O"]
+  },
+  "letter_o_acute": {
+    "dataset_labels": ["Ó"]
+  },
+  "letter_o_circumflex": {
+    "dataset_labels": ["Ô"]
+  },
+  "letter_p": {
+    "dataset_labels": ["P"]
+  },
+  "letter_q": {
+    "dataset_labels": ["Q"]
+  },
+  "letter_r": {
+    "dataset_labels": ["R"]
+  },
+  "letter_r_acute": {
+    "dataset_labels": ["Ŕ"]
+  },
+  "letter_s": {
+    "dataset_labels": ["S"]
+  },
+  "letter_s_caron": {
+    "dataset_labels": ["Š"]
+  },
+  "letter_t": {
+    "dataset_labels": ["T"]
+  },
+  "letter_t_caron": {
+    "dataset_labels": ["Ť"]
+  },
+  "letter_u": {
+    "dataset_labels": ["U"]
+  },
+  "letter_u_acute": {
+    "dataset_labels": ["Ú"]
+  },
+  "letter_v": {
+    "dataset_labels": ["V"]
+  },
+  "letter_w": {
+    "dataset_labels": ["W"]
+  },
+  "letter_x": {
+    "dataset_labels": ["X"]
+  },
+  "letter_y": {
+    "dataset_labels": ["Y"]
+  },
+  "letter_y_acute": {
+    "dataset_labels": ["Ý"]
+  },
+  "letter_z": {
+    "dataset_labels": ["Z"]
+  },
+  "letter_z_caron": {
+    "dataset_labels": ["Ž"]
+  },
+
+  "greeting_farewell": {
+    "dataset_labels": ["Ahoj", "Dovidenia"]
+  },
+  "yes": {
+    "dataset_labels": ["Áno"]
+  },
+  "pain": {
+    "dataset_labels": ["Bolesť", "Bolieť"]
+  },
+  "thank_you": {
+    "dataset_labels": ["Ďakovať", "poďakovať"]
+  },
+  "no": {
+    "dataset_labels": ["Nie"]
+  },
+  "pronoun_i": {
+    "dataset_labels": ["Ja"]
+  },
+  "pronoun_you_singular": {
+    "dataset_labels": ["Ty"]
+  },
+  "pronoun_we": {
+    "dataset_labels": ["My"]
+  },
+  "pronoun_you_plural": {
+    "dataset_labels": ["Vy"]
+  },
+  "pronoun_she": {
+    "dataset_labels": ["Ona"]
+  },
+  "pronoun_he": {
+    "dataset_labels": ["On"]
+  },
+  "pronoun_they": {
+    "dataset_labels": ["Oni"]
+  },
+  "ask": {
+    "dataset_labels": ["Poprosiť", "Požiadať", "Žiadať"]
+  },
+  "water": {
+    "dataset_labels": ["Voda"]
+  },
+  "eat": {
+    "dataset_labels": ["Jesť", "konzumovať"]
+  },
+  "drink": {
+    "dataset_labels": ["Piť", "konzumovať"]
+  },
+  "want": {
+    "dataset_labels": ["Chcieť"]
+  },
+  "understand": {
+    "dataset_labels": ["Rozumieť"]
+  },
+  "learn": {
+    "dataset_labels": ["Učiť sa"]
+  },
+  "see": {
+    "dataset_labels": ["Vidieť"]
+  },
+  "go": {
+    "dataset_labels": ["Ísť"]
+  },
+  "come": {
+    "dataset_labels": ["Prísť", "prichádzať"]
+  },
+  "good": {
+    "dataset_labels": ["Dobrý"]
+  },
+  "bad": {
+    "dataset_labels": ["Zlý"]
+  },
+  "big": {
+    "dataset_labels": ["Veľký"]
+  },
+  "small": {
+    "dataset_labels": ["Malý"]
+  },
+  "tired": {
+    "dataset_labels": ["Unavený"]
+  },
+  "tomorrow": {
+    "dataset_labels": ["Zajtra"]
+  },
+  "who": {
+    "dataset_labels": ["Kto", "ktorý", "ktože"]
+  },
+  "where": {
+    "dataset_labels": ["Kde"]
+  },
+  "when": {
+    "dataset_labels": ["Kedy"]
+  },
+  "how": {
+    "dataset_labels": ["Ako"]
+  },
+  "why": {
+    "dataset_labels": ["Prečo"]
+  },
+  "phone": {
+    "dataset_labels": ["Telefón"]
+  },
+  "go_home": {
+    "dataset_labels": ["Ísť domov"]
+  },
+  "school": {
+    "dataset_labels": ["Škola"]
+  },
+  "university": {
+    "dataset_labels": ["Vysoká škola"]
+  },
+  "food": {
+    "dataset_labels": ["Jedlo"]
+  },
+  "friend": {
+    "dataset_labels": ["Kamarát"]
+  },
+  "write": {
+    "dataset_labels": ["Písať"]
+  },
+  "day": {
+    "dataset_labels": ["Deň"]
+  },
+  "dog": {
+    "dataset_labels": ["Pes"]
+  },
+  "money": {
+    "dataset_labels": ["Peniaze"]
+  },
+  "affection": {
+    "dataset_labels": ["Láska"]
+  },
+  "like": {
+    "dataset_labels": ["mať rád"]
+  },
+  "love": {
+    "dataset_labels": ["Milovať"]
+  }
+}
