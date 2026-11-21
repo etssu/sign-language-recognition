@@ -159,11 +159,8 @@
   "pronoun_you_plural": {
     "dataset_labels": ["Vy"]
   },
-  "pronoun_she": {
-    "dataset_labels": ["Ona"]
-  },
-  "pronoun_he": {
-    "dataset_labels": ["On"]
+  "pronoun_he_she": {
+    "dataset_labels": ["On","Ona"]
   },
   "pronoun_they": {
     "dataset_labels": ["Oni"]

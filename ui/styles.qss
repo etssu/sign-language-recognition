@@ -7,7 +7,7 @@ QPushButton#cameraButton {
     border: 1px solid;
     border-radius: 12px;
 
-    background-color: #526B9F;
+    background-color: #735D78;
     color: white;
     font-weight: bold;
 
@@ -15,10 +15,36 @@ QPushButton#cameraButton {
 }
 
 QPushButton#cameraButton:hover {
-    background-color: #657FB5;
-    color: white;
+    background-color: #B392AC;
+    color: black;
 }
 
 QPushButton#cameraButton:pressed {
-    background-color: #3D507D;
+    background-color: #735D78;
+}
+
+QPushButton#cameraButton:disabled {
+    background-color: #D1B3C4;
+}
+
+QPushButton#clearHistoryButton {
+    background-color: #735D78;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    font-weight: bold;
+}
+
+QPushButton#clearHistoryButton:hover {
+    background-color: #B392AC;
+    color: black;
+}
+
+QPushButton#clearHistoryButton:pressed {
+    background-color: #735D78;
+}
+
+QPushButton#clearHistoryButton:disabled {
+    background-color: #D1B3C4;
 }

@@ -17,6 +17,7 @@ __pycache__/
 images/
 
 # private info
+landmarks.csv
 participants.xlsx
 letters_copy
 
