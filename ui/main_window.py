@@ -10,8 +10,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QFrame,
-    QListWidget,
-    QListWidgetItem, QComboBox,
+    QComboBox,
 )
 
 from ui.camera_widget import CameraWidget
@@ -94,12 +93,35 @@ class MainWindow(QWidget):
         self.clear_history_button.clicked.connect(self.clear_history)
         self.clear_history_button.setEnabled(False)
 
-        self.history_list = QListWidget()
-        self.history_list.setObjectName("historyList")
+        self.history_combo = QComboBox()
+        self.history_combo.setObjectName("historyCombo")
+        self.history_combo.setPlaceholderText("No gestures detected")
+        self.history_combo.currentIndexChanged.connect(self.show_gesture_info)
+
+        self.gesture_info = QFrame()
+        self.gesture_info.setObjectName("gestureInfo")
+
+        info_layout = QVBoxLayout(self.gesture_info)
+
+        self.gesture_name = QLabel("Select a gesture")
+        self.gesture_name.setObjectName("gestureName")
+
+        self.gesture_meaning = QLabel("")
+        self.gesture_meaning.setObjectName("gestureMeaning")
+        self.gesture_meaning.setWordWrap(True)
+
+        self.gesture_usage = QLabel("")
+        self.gesture_usage.setObjectName("gestureUsage")
+        self.gesture_usage.setWordWrap(True)
+
+        info_layout.addWidget(self.gesture_name)
+        info_layout.addWidget(self.gesture_meaning)
+        info_layout.addWidget(self.gesture_usage)
 
         history_layout.addWidget(history_title)
         history_layout.addWidget(self.clear_history_button)
-        history_layout.addWidget(self.history_list)
+        history_layout.addWidget(self.history_combo)
+        history_layout.addWidget(self.gesture_info, 1)
 
         # Separator
         separator = QFrame()
@@ -159,13 +181,30 @@ class MainWindow(QWidget):
     def add_history_item(self, gesture, confidence):
         time = datetime.now().strftime("%H:%M:%S")
 
-        item = QListWidgetItem(
-            f"{gesture}\n{time}                         {confidence:.1f}%"
+        self.history_combo.addItem(
+            f"{gesture}  |  {time}  |  {confidence:.1f}%",
+            gesture
         )
 
-        self.history_list.addItem(item)
-        self.history_list.scrollToBottom()
+        self.history_combo.setCurrentIndex(
+            self.history_combo.count() - 1
+        )
+
         self.clear_history_button.setEnabled(True)
+
+    def show_gesture_info(self, index):
+        if index < 0:
+            return
+
+        gesture = self.history_combo.itemData(index)
+
+        self.gesture_name.setText(gesture)
+        self.gesture_meaning.setText(
+            "Meaning: Information about this gesture."
+        )
+        self.gesture_usage.setText(
+            "Usage: How and when this gesture is used."
+        )
 
     def load_styles(self):
         try:
@@ -196,7 +235,12 @@ class MainWindow(QWidget):
         event.accept()
 
     def clear_history(self):
-        self.history_list.clear()
+        self.history_combo.clear()
+
+        self.gesture_name.setText("Select a gesture")
+        self.gesture_meaning.clear()
+        self.gesture_usage.clear()
+
         self.clear_history_button.setEnabled(False)
 
 
