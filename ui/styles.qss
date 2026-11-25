@@ -64,3 +64,87 @@ QPushButton#settingsButton:hover {
 QPushButton#settingsButton:pressed {
     background-color: #B392AC;
 }
+
+
+/* Settings page */
+
+QLabel#settingsSubtitle {
+    color: #8A7C8D;
+    font-size: 14px;
+}
+
+QLabel#settingsSectionTitle {
+    color: #735D78;
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+QFrame#settingsCard {
+    background-color: #F7F4F6;
+    border: 1px solid #E8DDE6;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+QPushButton#backButton {
+    background-color: #F0EAF1;
+    color: #735D78;
+    border: 1px solid #D1B3C4;
+    border-radius: 9px;
+    padding: 9px 18px;
+    font-weight: bold;
+}
+
+QPushButton#backButton:hover {
+    background-color: #E8C2CA;
+}
+
+QPushButton#backButton:pressed {
+    background-color: #D1B3C4;
+}
+
+QComboBox {
+    background-color: white;
+    border: 1px solid #D1B3C4;
+    border-radius: 7px;
+    padding: 6px 10px;
+    min-width: 110px;
+}
+
+QComboBox:hover {
+    border: 1px solid #735D78;
+}
+
+QSlider::groove:horizontal {
+    background: #E8C2CA;
+    height: 6px;
+    border-radius: 3px;
+}
+
+QSlider::handle:horizontal {
+    background: #735D78;
+    width: 16px;
+    height: 16px;
+    margin: -5px 0;
+    border-radius: 8px;
+}
+
+QCheckBox {
+    color: #344966;
+    spacing: 8px;
+}
+
+QCheckBox::indicator {
+    width: 17px;
+    height: 17px;
+}
+QLabel#title {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+QComboBox::drop-down {
+    border: none;
+    background: transparent;
+}
