@@ -3,6 +3,7 @@ from datetime import datetime
 from pathlib import Path
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QStackedWidget
+from PySide6.QtCore import Qt
 from ui.settings_page import SettingsPage
 
 from PySide6.QtWidgets import (
@@ -14,7 +15,10 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QFrame,
     QComboBox,
+    QToolButton,
+    QScrollArea,
 )
+from PySide6.QtWidgets import QSizePolicy
 
 from ui.camera_widget import CameraWidget
 from utils.model_loader import load_model
@@ -74,7 +78,6 @@ class MainWindow(QWidget):
         self.start_button.setObjectName("cameraButton")
         self.start_button.clicked.connect(self.start_camera)
 
-
         self.stop_button = QPushButton("Stop")
         self.stop_button.setObjectName("cameraButton")
         self.stop_button.clicked.connect(self.stop_camera)
@@ -93,6 +96,7 @@ class MainWindow(QWidget):
         left_layout.addLayout(camera_buttons)
 
         # Right side: history panel
+        self.selected_history_card = None
         history_panel = QFrame()
         history_panel.setObjectName("historyPanel")
 
@@ -106,36 +110,23 @@ class MainWindow(QWidget):
         self.clear_history_button.clicked.connect(self.clear_history)
         self.clear_history_button.setEnabled(False)
 
-        self.history_combo = QComboBox()
-        self.history_combo.setObjectName("historyCombo")
-        self.history_combo.setPlaceholderText("No gestures detected")
-        self.history_combo.currentIndexChanged.connect(self.show_gesture_info)
+        # Scroll area
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setFrameShape(QFrame.Shape.NoFrame)
 
-        self.gesture_info = QFrame()
-        self.gesture_info.setObjectName("gestureInfo")
+        self.history_container = QWidget()
+        self.history_layout = QVBoxLayout(self.history_container)
+        self.history_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.history_layout.setSpacing(10)
 
-        info_layout = QVBoxLayout(self.gesture_info)
-
-        self.gesture_name = QLabel("")
-        self.gesture_name.setObjectName("gestureName")
-
-        self.gesture_meaning = QLabel("")
-        self.gesture_meaning.setObjectName("gestureMeaning")
-        self.gesture_meaning.setWordWrap(True)
-
-        self.gesture_usage = QLabel("")
-        self.gesture_usage.setObjectName("gestureUsage")
-        self.gesture_usage.setWordWrap(True)
-
-        info_layout.addWidget(self.gesture_name)
-        info_layout.addWidget(self.gesture_meaning)
-        info_layout.addWidget(self.gesture_usage)
+        scroll_area.setWidget(self.history_container)
 
         history_layout.addWidget(history_title)
         history_layout.addWidget(self.clear_history_button)
-        history_layout.addWidget(self.history_combo)
-        history_layout.addWidget(self.gesture_info, 1)
+        history_layout.addWidget(scroll_area)
 
+        history_panel.setFixedWidth(280)
         # Separator
         separator = QFrame()
         separator.setFrameShape(QFrame.Shape.VLine)
@@ -205,17 +196,107 @@ class MainWindow(QWidget):
             self.last_saved_gesture = prediction
 
     def add_history_item(self, gesture, confidence):
-        time = datetime.now().strftime("%H:%M:%S")
+        card = QFrame()
+        card.setObjectName("historyCard")
+        card.setProperty("selected", False)
 
-        self.history_combo.addItem(
-            f"{gesture}  |  {time}  |  {confidence:.1f}%",
-            gesture
+        card_layout = QVBoxLayout(card)
+        card_layout.setContentsMargins(8, 6, 8, 6)
+        card_layout.setSpacing(4)
+
+        # Header
+        header = QHBoxLayout()
+        header.setContentsMargins(0, 0, 0, 0)
+        header.setSpacing(5)
+
+        button = QToolButton()
+        button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Fixed
+        )
+        button.setMinimumHeight(30)
+        button.setMaximumHeight(36)
+        button.setText(gesture)
+        button.setObjectName("historyItemButton")
+        button.setCheckable(True)
+        button.setArrowType(Qt.ArrowType.RightArrow)
+        button.setToolButtonStyle(
+            Qt.ToolButtonStyle.ToolButtonTextBesideIcon
+        )
+        button.setSizePolicy(
+            button.sizePolicy().Policy.Expanding,
+            button.sizePolicy().Policy.Fixed
         )
 
-        self.history_combo.setCurrentIndex(
-            self.history_combo.count() - 1
+        confidence_label = QLabel(f"{confidence:.1f}%")
+        confidence_label.setObjectName("historyConfidence")
+
+        header.addWidget(button, 1)
+        header.addWidget(confidence_label)
+
+        # Details
+        details = QLabel(
+            f"Meaning: Information about {gesture}.\n\n"
+            f"Usage: How and when this gesture is used."
         )
 
+        details.setObjectName("historyDetails")
+        details.setWordWrap(True)
+        details.setAlignment(Qt.AlignmentFlag.AlignTop)
+        details.setSizePolicy(
+            QSizePolicy.Policy.Preferred,
+            QSizePolicy.Policy.Minimum
+        )
+        details.hide()
+
+        def toggle_details(checked):
+            if self.selected_history_card is not None:
+                old_card = self.selected_history_card
+
+                if old_card != card:
+                    old_button = old_card.findChild(
+                        QToolButton,
+                        "historyItemButton"
+                    )
+
+                    old_details = old_card.findChild(
+                        QLabel,
+                        "historyDetails"
+                    )
+
+                    if old_button:
+                        old_button.blockSignals(True)
+                        old_button.setChecked(False)
+                        old_button.setArrowType(Qt.ArrowType.RightArrow)
+                        old_button.blockSignals(False)
+
+                    if old_details:
+                        old_details.hide()
+
+                    old_card.setProperty("selected", False)
+                    old_card.style().unpolish(old_card)
+                    old_card.style().polish(old_card)
+
+            if checked:
+                self.selected_history_card = card
+                card.setProperty("selected", True)
+                details.show()
+                button.setArrowType(Qt.ArrowType.DownArrow)
+            else:
+                self.selected_history_card = None
+                card.setProperty("selected", False)
+                details.hide()
+                button.setArrowType(Qt.ArrowType.RightArrow)
+
+            card.style().unpolish(card)
+            card.style().polish(card)
+
+        button.toggled.connect(toggle_details)
+
+        card_layout.addLayout(header)
+        card_layout.addWidget(details)
+
+        self.history_layout.addWidget(card)
         self.clear_history_button.setEnabled(True)
 
     def show_gesture_info(self, index):
@@ -261,13 +342,20 @@ class MainWindow(QWidget):
         event.accept()
 
     def clear_history(self):
-        self.history_combo.clear()
+        while self.history_layout.count():
+            item = self.history_layout.takeAt(0)
 
-        self.gesture_name.setText("Select a gesture")
-        self.gesture_meaning.clear()
-        self.gesture_usage.clear()
+            widget = item.widget()
 
+            if widget:
+                widget.deleteLater()
+
+        self.selected_history_card = None
         self.clear_history_button.setEnabled(False)
+
+        self.last_saved_gesture = None
+        self.last_detected_gesture = None
+        self.detected_frames = 0
 
     def open_settings(self):
         self.pages.setCurrentWidget(self.settings_page)

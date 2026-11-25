@@ -1,16 +1,32 @@
+
+/* ============================= */
+/* General */
+/* ============================= */
+
 QWidget {
     background-color: #EEF2F8;
     color: #15182D;
 }
 
-QPushButton#cameraButton {
-    border: 1px solid;
-    border-radius: 12px;
+/* ============================= */
+/* Main title */
+/* ============================= */
 
+QLabel#title {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+/* ============================= */
+/* Camera buttons */
+/* ============================= */
+
+QPushButton#cameraButton {
+    border: 1px solid #735D78;
+    border-radius: 12px;
     background-color: #735D78;
     color: white;
     font-weight: bold;
-
     padding: 10px 15px;
 }
 
@@ -25,6 +41,43 @@ QPushButton#cameraButton:pressed {
 
 QPushButton#cameraButton:disabled {
     background-color: #D1B3C4;
+    border-color: #D1B3C4;
+}
+
+/* ============================= */
+/* Settings button */
+/* ============================= */
+
+QPushButton#settingsButton {
+    background-color: #F0F4EF;
+    border: 1px solid #D1B3C4;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+QPushButton#settingsButton:hover {
+    background-color: #E8C2CA;
+    border: 1px solid #B392AC;
+}
+
+QPushButton#settingsButton:pressed {
+    background-color: #B392AC;
+}
+
+/* ============================= */
+/* History panel */
+/* ============================= */
+
+QFrame#historyPanel {
+    background-color: #F0F4EF;
+    border-radius: 14px;
+}
+
+QLabel#historyTitle {
+    color: #735D78;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px;
 }
 
 QPushButton#clearHistoryButton {
@@ -49,24 +102,108 @@ QPushButton#clearHistoryButton:disabled {
     background-color: #D1B3C4;
 }
 
-QPushButton#settingsButton {
-    background-color: #F0F4EF;
+/* ============================= */
+/* History cards */
+/* ============================= */
+
+QFrame#historyCard {
+    background-color: #FFFFFF;
     border: 1px solid #D1B3C4;
     border-radius: 10px;
-    padding: 8px;
 }
 
-QPushButton#settingsButton:hover {
+QFrame#historyCard[selected="true"] {
+    border: 2px solid #735D78;
+    background-color: #F7F1F6;
+}
+
+/* Gesture name */
+
+QToolButton#historyItemButton {
+    background: transparent;
+    border: none;
+    border-radius: 7px;
+    color: #344966;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    padding: 3px 4px;
+}
+
+QToolButton#historyItemButton:hover {
+    background-color: #E8DCE9;
+}
+
+QFrame#historyCard[selected="true"] QToolButton#historyItemButton {
+    color: #735D78;
+}
+
+/* Confidence */
+
+QLabel#historyConfidence {
+    color: #735D78;
     background-color: #E8C2CA;
-    border: 1px solid #B392AC;
+    border-radius: 8px;
+    padding: 4px 7px;
+    font-size: 11px;
+    font-weight: bold;
 }
 
-QPushButton#settingsButton:pressed {
-    background-color: #B392AC;
+/* Gesture details */
+
+QLabel#historyDetails {
+    background: transparent;
+    color: #344966;
+    font-size: 11px;
+    padding: 3px;
 }
 
+/* ============================= */
+/* Scroll areas */
+/* ============================= */
 
+QScrollArea {
+    background: transparent;
+    border: none;
+}
+
+QScrollArea QWidget {
+    background: transparent;
+}
+
+/* Main history scrollbar */
+
+QScrollBar:vertical {
+    background: transparent;
+    width: 7px;
+    margin: 4px 1px;
+    border: none;
+}
+
+QScrollBar::handle:vertical {
+    background: #B392AC;
+    border-radius: 3px;
+    min-height: 35px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #735D78;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    height: 0px;
+    border: none;
+}
+
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+    background: transparent;
+}
+
+/* ============================= */
 /* Settings page */
+/* ============================= */
 
 QLabel#settingsSubtitle {
     color: #8A7C8D;
@@ -104,6 +241,10 @@ QPushButton#backButton:pressed {
     background-color: #D1B3C4;
 }
 
+/* ============================= */
+/* Settings controls */
+/* ============================= */
+
 QComboBox {
     background-color: white;
     border: 1px solid #D1B3C4;
@@ -114,6 +255,11 @@ QComboBox {
 
 QComboBox:hover {
     border: 1px solid #735D78;
+}
+
+QComboBox::drop-down {
+    border: none;
+    background: transparent;
 }
 
 QSlider::groove:horizontal {
@@ -139,12 +285,13 @@ QCheckBox::indicator {
     width: 17px;
     height: 17px;
 }
-QLabel#title {
-    font-size: 32px;
-    font-weight: 700;
-}
 
-QComboBox::drop-down {
-    border: none;
-    background: transparent;
+/* ============================= */
+/* Confidence label */
+/* ============================= */
+
+QLabel#confidenceLabel {
+    color: #735D78;
+    font-size: 14px;
+    font-weight: bold;
 }
