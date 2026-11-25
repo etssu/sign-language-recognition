@@ -1,6 +1,9 @@
 import sys
 from datetime import datetime
 from pathlib import Path
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QStackedWidget
+from ui.settings_page import SettingsPage
 
 from PySide6.QtWidgets import (
     QApplication,
@@ -22,7 +25,11 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
 
-        # Load model
+        # Pages
+        self.pages = QStackedWidget()
+        self.settings_page = SettingsPage()
+
+        # Load models
         self.knn_static_model = load_model("knn_static_model")
         self.knn_dynamic_model = load_model("knn_dynamic_model")
 
@@ -50,10 +57,17 @@ class MainWindow(QWidget):
         # Title
         title = QLabel("Sign Language Recognition")
         title.setObjectName("title")
+        settings_button = QPushButton()
+        settings_button.setIcon(QIcon("img/settings.svg"))
+        settings_button.setFixedSize(40, 40)
+        settings_button.setObjectName("settingsButton")
+        settings_button.clicked.connect(self.open_settings)
 
-        # Dropdown list
-        combobox = QComboBox(self)
-        combobox.addItems(['KNN Static [ODPORUCANE]', 'RF Static', 'SVM Static', 'KNN Dynamic', 'RF Dynamic', 'SVM Dynamic', 'DTW DYNAMIC [ODPORUCANE]'])
+        header_layout = QHBoxLayout()
+        header_layout.addWidget(title)
+        header_layout.addStretch()
+        header_layout.addWidget(settings_button)
+
 
         # Camera buttons
         self.start_button = QPushButton("Start Camera")
@@ -73,8 +87,7 @@ class MainWindow(QWidget):
 
         # Left side: camera and recognition
         left_layout = QVBoxLayout()
-        left_layout.addWidget(title)
-        left_layout.addWidget(combobox)
+        left_layout.addLayout(header_layout)
         left_layout.addWidget(self.camera_widget, 3)
         left_layout.addWidget(self.confidence_label)
         left_layout.addLayout(camera_buttons)
@@ -103,7 +116,7 @@ class MainWindow(QWidget):
 
         info_layout = QVBoxLayout(self.gesture_info)
 
-        self.gesture_name = QLabel("Select a gesture")
+        self.gesture_name = QLabel("")
         self.gesture_name.setObjectName("gestureName")
 
         self.gesture_meaning = QLabel("")
@@ -129,10 +142,23 @@ class MainWindow(QWidget):
         separator.setFrameShadow(QFrame.Shadow.Sunken)
 
         # Main layout
-        main_layout = QHBoxLayout(self)
+        # Main page
+        self.main_page = QWidget()
+
+        main_layout = QHBoxLayout(self.main_page)
         main_layout.addLayout(left_layout, 1)
         main_layout.addWidget(separator)
         main_layout.addWidget(history_panel)
+
+        history_panel.setFixedWidth(280)
+
+        # Pages
+        self.pages.addWidget(self.main_page)
+        self.pages.addWidget(self.settings_page)
+        self.settings_page.back_requested.connect(self.open_main)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.pages)
 
         history_panel.setFixedWidth(280)
 
@@ -174,7 +200,7 @@ class MainWindow(QWidget):
             self.detected_frames = 1
 
         # Save confirmed gesture
-        if (self.detected_frames >= self.required_frames and prediction != self.last_saved_gesture):
+        if self.detected_frames >= self.required_frames and prediction != self.last_saved_gesture:
             self.add_history_item(prediction, confidence)
             self.last_saved_gesture = prediction
 
@@ -242,6 +268,12 @@ class MainWindow(QWidget):
         self.gesture_usage.clear()
 
         self.clear_history_button.setEnabled(False)
+
+    def open_settings(self):
+        self.pages.setCurrentWidget(self.settings_page)
+
+    def open_main(self):
+        self.pages.setCurrentWidget(self.main_page)
 
 
 app = QApplication(sys.argv)

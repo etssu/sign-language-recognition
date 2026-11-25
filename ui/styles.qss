@@ -48,3 +48,19 @@ QPushButton#clearHistoryButton:pressed {
 QPushButton#clearHistoryButton:disabled {
     background-color: #D1B3C4;
 }
+
+QPushButton#settingsButton {
+    background-color: #F0F4EF;
+    border: 1px solid #D1B3C4;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+QPushButton#settingsButton:hover {
+    background-color: #E8C2CA;
+    border: 1px solid #B392AC;
+}
+
+QPushButton#settingsButton:pressed {
+    background-color: #B392AC;
+}
